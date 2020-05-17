@@ -60,12 +60,20 @@
 <body>
 
 <ul style="list-style-type:disc;">
+    {% if error %}
+    <h3>{{ error }}</h3>
+    <br>
+    <br>
+    {% endif %}
     <h1>Choose the set number alloted:</h1>
-    <button type="submit" class="button">Set 1</button>
-    <button type="submit" class="button button2">Set 2</button>
-    <button type="submit" class="button button3">Set 3</button>
-    <button type="submit" class="button button4">Set 4</button>
-    <button type="submit" class="button button5">Set 5</button>
+    <form method="POST" action="{% url 'set_number_register_type2' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit" name="set1" value="set1" class="button">Set 1</button>
+        <button type="submit" name="set2" value="set2" class="button button2">Set 2</button>
+        <button type="submit" name="set3" value="set3" class="button button3">Set 3</button>
+        <button type="submit" name="set4" value="set4" class="button button4">Set 4</button>
+        <button type="submit" name="set5" value="set5" class="button button5">Set 5</button>
+    </form>
 </ul>
 </body>
 </html>

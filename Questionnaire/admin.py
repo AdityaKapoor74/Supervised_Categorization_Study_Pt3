@@ -3,3 +3,4 @@ from .models import *
 
 #User Details
 admin.site.register(UserDetails)
+admin.site.register(SetNumber)

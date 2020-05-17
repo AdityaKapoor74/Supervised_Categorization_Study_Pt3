@@ -16,3 +16,11 @@ class UserDetails(models.Model):
 
     def __str__(self):
         return self.first_name+' '+self.last_name
+
+class SetNumber(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Set Number"
+
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+    set_num = models.CharField(max_length=10,blank=True,null=True,default=None)

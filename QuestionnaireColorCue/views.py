@@ -20,7 +20,7 @@ def terms(request):
     return render(request,'QuestionnaireColorCue/terms.html')
 
 
-def register_done(request):
+def register_type2_done(request):
 
     if request.method=="POST":
         if request.POST['firstname'] and request.POST['lastname'] and request.POST['email'] and request.POST['city'] and request.POST['country'] and request.POST['age']:
@@ -73,3 +73,33 @@ def register_done(request):
 
 def decide_set_number(request):
     return render(request,'QuestionnaireColorCue/decide_set_number.html')
+
+def set_number_register_type2(request):
+    if request.method=="POST":
+        user_response = SetNumber()
+        try:
+            if request.POST.get("set1"):
+                user_response.set_num = "set1"
+            elif request.POST.get("set2"):
+                user_response.set_num = "set2"
+            elif request.POST.get("set3"):
+                user_response.set_num = "set3"
+            elif request.POST.get("set4"):
+                user_response.set_num = "set4"
+            elif request.POST.get("set5"):
+                user_response.set_num = "set5"
+            user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
+            user_response.save()
+
+            print("in try")
+            return render(request, 'QuestionnaireColorCue/welcome.html')
+
+        except ValueError as e:
+            print("in exception")
+            print(e)
+            return render(request, 'QuestionnaireColorCue/decide_set_number.html',
+                          {'error': 'Please select either one of the sets.'})
+
+    else:
+        print("in else")
+        return render(request,'QuestionnaireColorCue/decide_set_number.html')
