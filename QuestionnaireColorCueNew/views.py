@@ -8,16 +8,16 @@ from django.core.exceptions import ValidationError
 import random
 
 def register(request):
-    return render(request,'Questionnaire/register.html')
+    return render(request,'QuestionnaireColorCue/register.html')
 
 def contact(request):
-    return render(request,'Questionnaire/contact.html')
+    return render(request,'QuestionnaireColorCue/contact.html')
 
 def about(request):
-    return render(request,'Questionnaire/about.html')
+    return render(request,'QuestionnaireColorCue/about.html')
 
 def terms(request):
-    return render(request,'Questionnaire/terms.html')
+    return render(request,'QuestionnaireColorCue/terms.html')
 
 
 def register_done(request):
@@ -32,7 +32,7 @@ def register_done(request):
                 try:
                     validate_email(email)
                 except ValidationError as e:
-                    return render(request,'Questionnaire/register.html',{'error':'Please verify your email.'})
+                    return render(request,'QuestionnaireColorCueNew/register.html',{'error':'Please verify your email.'})
                 user.email=email
                 user.first_name = request.POST['firstname']
                 user.last_name = request.POST['lastname']
@@ -47,14 +47,14 @@ def register_done(request):
                     elif option=="Other":
                         user.gender="Other"
                 else:
-                    return render(request, 'Questionnaire/register.html',
+                    return render(request, 'QuestionnaireColorCueNew/register.html',
                                       {'error': 'All fields are required.'})
 
                 user.city = request.POST['city']
                 user.country = request.POST['country']
 
                 if 'terms' not in request.POST:
-                    return render(request, 'Questionnaire/register.html', {'error': 'Please accept the terms and conditions.'})
+                    return render(request, 'QuestionnaireColorCueNew/register.html', {'error': 'Please accept the terms and conditions.'})
 
                 user.save()
                 request.session['user_id'] = user.id
@@ -63,13 +63,13 @@ def register_done(request):
                 request.session['list_of_questions'] = []
                 request.session['flag'] = True
             except ValueError as e:
-                return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
+                return render(request,'QuestionnaireColorCueNew/register.html',{'error':'Incorrect values.Please try again.'})
 
-            return render(request,'Questionnaire/decide_set_number.html')
+            return render(request,'QuestionnaireColorCueNew/decide_set_number.html')
         else:
-            return render(request,'Questionnaire/register.html',{'error':'All fields are required.'})
+            return render(request,'QuestionnaireColorCueNew/register.html',{'error':'All fields are required.'})
     else:
-        return render(request,'Questionnaire/register.html')
+        return render(request,'QuestionnaireColorCueNew/register.html')
 
 def decide_set_number(request):
-    return render(request,'Questionnaire/decide_set_number.html')
+    return render(request,'QuestionnaireColorCueNew/decide_set_number.html')

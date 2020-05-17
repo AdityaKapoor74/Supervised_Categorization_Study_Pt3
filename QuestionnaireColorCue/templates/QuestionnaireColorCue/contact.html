@@ -1,0 +1,67 @@
+{% load staticfiles %}
+ html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″>
+    <title>Contact</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!------ Include the above in your HEAD tag ---------->
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+
+<header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+{#        <a class="navbar-brand" href="#">Fixed navbar</a>#}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'register' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">Participation Info</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</header>
+<br/>
+<br/>
+<br/>
+<body>
+<span><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For any problem or enquiry, please feel free to contact us via mails.</h3></span>
+<br/>
+<br/>
+<div class="container">
+  <h2>Sujith Thomas</h2>
+    <br/>
+  <img src={% static "QuestionnaireColorCue/SujithSir.jpg" %}>
+  <p>Faculty of Computer Science at BITS PILANI GOA</p>
+  <a href="mailto:sujitht@goa.bits-pilani.ac.in" class="btn btn-info">Email</a>
+</div>
+<br/>
+<br/>
+<br/>
+<div class="container">
+  <h2>Aditya Kapoor</h2>
+    <br/>
+  <img src={% static "QuestionnaireColorCue/AdityaKapoor.jpg" %} style="width:225px;height:225px;">
+  <p>Research student at BITS PILANI GOA</p>
+  <a href="mailto:adityakapoor074@gmail.com" class="btn btn-info">Email</a>
+</div>
+
+
+</body>
+</html>
