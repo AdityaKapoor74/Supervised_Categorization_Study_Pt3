@@ -66,6 +66,8 @@ def register_type1_done(request):
                 request.session['flag_test'] = False
                 request.session['classify_learn_samples'] = []
                 request.session['correct_answer'] = 0
+                request.session['score'] = 0
+                request.session['result'] = 0
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
@@ -189,9 +191,10 @@ def classify_and_learn_display_stimuli_type1(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
         if option==request.session['correct_answer']:
+            request.session['score'] += 1
             return render(request,"Questionnaire/fixation_screen_classify.html")
         else:
-            return render("Questionnaire/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer']})
+            return render(request,"Questionnaire/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer']})
 
     if len(request.session['classify_learn_samples'])!=0:
         id = request.session['classify_learn_samples'][0]
@@ -213,7 +216,7 @@ def classify_and_learn_display_stimuli_type1(request):
 
     else:
         if request.session['flag_test'] == True:
-            return render(request,'Questionnaire/classify_result.html')
+            return render(request,'Questionnaire/classify_result.html',{"performance":request.session['score']*10,"correct":request.session['score'],"wrong":10-request.session['score']})
         if request.session['setnumber'] == 1:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
@@ -249,3 +252,15 @@ def classify_and_learn_display_stimuli_type1(request):
 
 def fixation_screen_classify_type1(request):
     return render(request, 'Questionnaire/fixation_screen_classify.html')
+
+def classify_result_type1(request):
+    if request.session['score']>8:
+        request.session['result']+=1
+
+    if request.session['score']<2:
+        #Training phase
+        request.session['iteration']+=1
+        return render(request,"Questionnaire/observe_and_learn.html",{"iteration":request.session['iteration']})
+    else:
+        #Testing phase
+        pass
