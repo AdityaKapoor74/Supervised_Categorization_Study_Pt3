@@ -103,3 +103,7 @@ def set_number_register_type2(request):
     else:
         print("in else")
         return render(request,'QuestionnaireColorCue/decide_set_number.html')
+
+
+def training_phase_start_type2(request):
+    return render(request, 'QuestionnaireColorCue/training_phase_start.html')

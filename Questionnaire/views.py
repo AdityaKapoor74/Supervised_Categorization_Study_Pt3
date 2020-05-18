@@ -59,9 +59,11 @@ def register_type1_done(request):
                 user.save()
                 request.session['user_id'] = user.id
                 request.session['iteration'] = 1
-                request.session['list_of_stimuli'] = []
-                request.session['list_of_questions'] = []
-                request.session['flag'] = True
+                request.session['score'] = 0
+                request.session['setnumber'] = -1
+                request.session['obs_learn_samples'] = []
+                request.session['flag_training'] = False
+
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
@@ -80,14 +82,19 @@ def set_number_register_type1(request):
         try:
             if request.POST.get("set1"):
                 user_response.set_num = "set1"
+                request.session['setnumber'] = 1
             elif request.POST.get("set2"):
                 user_response.set_num = "set2"
+                request.session['setnumber'] = 2
             elif request.POST.get("set3"):
                 user_response.set_num = "set3"
+                request.session['setnumber'] = 3
             elif request.POST.get("set4"):
                 user_response.set_num = "set4"
+                request.session['setnumber'] = 4
             elif request.POST.get("set5"):
                 user_response.set_num = "set5"
+                request.session['setnumber'] = 5
             user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
             user_response.save()
 
@@ -103,3 +110,76 @@ def set_number_register_type1(request):
     else:
         print("in else")
         return render(request,'Questionnaire/decide_set_number.html')
+
+def training_phase_start_type1(request):
+    return render(request, 'Questionnaire/training_phase_start.html')
+
+def observe_and_learn_type1(request):
+    return render(request, 'Questionnaire/observe_and_learn.html',
+                  {'iteration': request.session['iteration']})
+
+def observe_and_learn_instructions_type1(request):
+    return render(request,'Questionnaire/observe_and_learn_instructions.html')
+
+def observe_and_learn_display_stimuli_type1(request):
+    if len(request.session['obs_learn_samples'])!=0:
+        id = request.session['obs_learn_samples'][0]
+        request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
+        if len(request.session['obs_learn_samples']) == 0:
+            request.session['flag_training'] = True
+        if request.session['setnumber'] == 1:
+            samples = Observe_And_Learn_Samples_set1.objects.get(pk=id)
+        elif request.session['setnumber'] == 2:
+            samples = Observe_And_Learn_Samples_set2.objects.get(pk=id)
+        elif request.session['setnumber'] == 3:
+            samples = Observe_And_Learn_Samples_set3.objects.get(pk=id)
+        elif request.session['setnumber'] == 4:
+            samples = Observe_And_Learn_Samples_set4.objects.get(pk=id)
+        elif request.session['setnumber'] == 5:
+            samples = Observe_And_Learn_Samples_set5.objects.get(pk=id)
+        return render(request, 'Questionnaire/observe_and_learn_samples.html',{'samples':samples})
+
+    else:
+        if request.session['flag_training'] == True:
+            return render(request,'classify_and_learn.html',{'iteration': request.session['iteration']})
+        if request.session['setnumber'] == 1:
+            request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['obs_learn_samples'])
+            id = request.session['obs_learn_samples'][0]
+            samples = Observe_And_Learn_Samples_set1.objects.get(pk=id)
+            request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
+        elif request.session['setnumber'] == 2:
+            request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set2.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['obs_learn_samples'])
+            id = request.session['obs_learn_samples'][0]
+            samples = Observe_And_Learn_Samples_set2.objects.get(pk=id)
+            request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
+        elif request.session['setnumber'] == 3:
+            request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set3.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['obs_learn_samples'])
+            id = request.session['obs_learn_samples'][0]
+            samples = Observe_And_Learn_Samples_set3.objects.get(pk=id)
+            request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
+        elif request.session['setnumber'] == 4:
+            request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set4.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['obs_learn_samples'])
+            id = request.session['obs_learn_samples'][0]
+            samples = Observe_And_Learn_Samples_set4.objects.get(pk=id)
+            request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
+        elif request.session['setnumber'] == 5:
+            request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set5.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['obs_learn_samples'])
+            id = request.session['obs_learn_samples'][0]
+            samples = Observe_And_Learn_Samples_set5.objects.get(pk=id)
+            request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
+
+        return render(request, 'Questionnaire/observe_and_learn_samples.html', {'samples': samples})
+
+    # elif len(request.session['obs_learn_samples'])==0:
+    #     pass
+
+def fixation_screen_type1(request):
+    return render(request,'Questionnaire/fixation_screen.html')
+
+def classify_and_learn_instructions_type1(request):
+    return render(request,'Questionnaire/classify_and_learn_instructions.html')
