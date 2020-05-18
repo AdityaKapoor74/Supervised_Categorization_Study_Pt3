@@ -15,6 +15,7 @@ urlpatterns = [
     path("fixation_screen/", views.fixation_screen_type1, name='fixation_screen_type1'),
     path("classify_and_learn_instructions/", views.classify_and_learn_instructions_type1, name='classify_and_learn_instructions_type1'),
     path("classify_and_learn_display_stimuli/", views.classify_and_learn_display_stimuli_type1,name='classify_and_learn_display_stimuli_type1'),
-    path("fixation_screen/", views.classify_result_type1, name='classify_result_type1'),
+    path("classify_result/", views.classify_result_type1, name='classify_result_type1'),
+    path("classify_performance/", views.classify_performance_type1, name='classify_performance_type1'),
 
 ]

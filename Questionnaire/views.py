@@ -68,6 +68,7 @@ def register_type1_done(request):
                 request.session['correct_answer'] = 0
                 request.session['score'] = 0
                 request.session['result'] = 0
+                request.session['performance'] = ""
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
@@ -216,6 +217,7 @@ def classify_and_learn_display_stimuli_type1(request):
 
     else:
         if request.session['flag_test'] == True:
+            request.session['performance']+=str(request.session['score']*10)+" "
             return render(request,'Questionnaire/classify_result.html',{"performance":request.session['score']*10,"correct":request.session['score'],"wrong":10-request.session['score']})
         if request.session['setnumber'] == 1:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
@@ -253,14 +255,20 @@ def classify_and_learn_display_stimuli_type1(request):
 def fixation_screen_classify_type1(request):
     return render(request, 'Questionnaire/fixation_screen_classify.html')
 
-def classify_result_type1(request):
+def classify_performance_type1(request):
     if request.session['score']>8:
         request.session['result']+=1
 
-    if request.session['score']<2:
+    if request.session['result']<2:
         #Training phase
         request.session['iteration']+=1
+        request.session['flag_training'] = False
+        request.session['score'] = 0
+        #check for iterations if greater than 10 : what to do?
         return render(request,"Questionnaire/observe_and_learn.html",{"iteration":request.session['iteration']})
     else:
         #Testing phase
         pass
+
+def classify_result_type1(request):
+    return render(request,"Questionnaire/classify_performance.html",{"performance_history":request.session['performance']})
