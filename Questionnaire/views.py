@@ -63,7 +63,9 @@ def register_type1_done(request):
                 request.session['setnumber'] = -1
                 request.session['obs_learn_samples'] = []
                 request.session['flag_training'] = False
-
+                request.session['flag_test'] = False
+                request.session['classify_learn_samples'] = []
+                request.session['correct_answer'] = 0
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
@@ -127,6 +129,7 @@ def observe_and_learn_display_stimuli_type1(request):
         request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
         if len(request.session['obs_learn_samples']) == 0:
             request.session['flag_training'] = True
+            request.session['flag_test'] = False
         if request.session['setnumber'] == 1:
             samples = Observe_And_Learn_Samples_set1.objects.get(pk=id)
         elif request.session['setnumber'] == 2:
@@ -137,11 +140,12 @@ def observe_and_learn_display_stimuli_type1(request):
             samples = Observe_And_Learn_Samples_set4.objects.get(pk=id)
         elif request.session['setnumber'] == 5:
             samples = Observe_And_Learn_Samples_set5.objects.get(pk=id)
+
         return render(request, 'Questionnaire/observe_and_learn_samples.html',{'samples':samples})
 
     else:
         if request.session['flag_training'] == True:
-            return render(request,'classify_and_learn.html',{'iteration': request.session['iteration']})
+            return render(request,'Questionnaire/classify_and_learn.html',{'iteration': request.session['iteration']})
         if request.session['setnumber'] == 1:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
@@ -175,11 +179,73 @@ def observe_and_learn_display_stimuli_type1(request):
 
         return render(request, 'Questionnaire/observe_and_learn_samples.html', {'samples': samples})
 
-    # elif len(request.session['obs_learn_samples'])==0:
-    #     pass
-
 def fixation_screen_type1(request):
     return render(request,'Questionnaire/fixation_screen.html')
 
 def classify_and_learn_instructions_type1(request):
     return render(request,'Questionnaire/classify_and_learn_instructions.html')
+
+def classify_and_learn_display_stimuli_type1(request):
+    if request.method=="POST":
+        option = request.POST.get("option",None)
+        if option==request.session['correct_answer']:
+            return render(request,"Questionnaire/fixation_screen_classify.html")
+        else:
+            return render("Questionnaire/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer']})
+
+    if len(request.session['classify_learn_samples'])!=0:
+        id = request.session['classify_learn_samples'][0]
+        request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
+        if len(request.session['classify_learn_samples']) == 0:
+            request.session['flag_test'] = True
+        if request.session['setnumber'] == 1:
+            samples = Classify_And_Learn_Samples_set1.objects.get(pk=id)
+        elif request.session['setnumber'] == 2:
+            samples = Classify_And_Learn_Samples_set2.objects.get(pk=id)
+        elif request.session['setnumber'] == 3:
+            samples = Classify_And_Learn_Samples_set3.objects.get(pk=id)
+        elif request.session['setnumber'] == 4:
+            samples = Classify_And_Learn_Samples_set4.objects.get(pk=id)
+        elif request.session['setnumber'] == 5:
+            samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
+        request.session['correct_answer'] = samples.sample_label
+        return render(request, 'Questionnaire/classify_and_learn_samples.html',{'samples':samples})
+
+    else:
+        if request.session['flag_test'] == True:
+            return render(request,'Questionnaire/classify_result.html')
+        if request.session['setnumber'] == 1:
+            request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['classify_learn_samples'])
+            id = request.session['classify_learn_samples'][0]
+            samples = Classify_And_Learn_Samples_set1.objects.get(pk=id)
+            request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
+        elif request.session['setnumber'] == 2:
+            request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set2.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['classify_learn_samples'])
+            id = request.session['classify_learn_samples'][0]
+            samples = Classify_And_Learn_Samples_set2.objects.get(pk=id)
+            request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
+        elif request.session['setnumber'] == 3:
+            request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set3.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['classify_learn_samples'])
+            id = request.session['classify_learn_samples'][0]
+            samples = Classify_And_Learn_Samples_set3.objects.get(pk=id)
+            request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
+        elif request.session['setnumber'] == 4:
+            request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set4.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['classify_learn_samples'])
+            id = request.session['classify_learn_samples'][0]
+            samples = Classify_And_Learn_Samples_set4.objects.get(pk=id)
+            request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
+        elif request.session['setnumber'] == 5:
+            request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set5.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['classify_learn_samples'])
+            id = request.session['classify_learn_samples'][0]
+            samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
+            request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
+        request.session['correct_answer'] = samples.sample_label
+        return render(request, 'Questionnaire/classify_and_learn_samples.html', {'samples': samples})
+
+def fixation_screen_classify_type1(request):
+    return render(request, 'Questionnaire/fixation_screen_classify.html')

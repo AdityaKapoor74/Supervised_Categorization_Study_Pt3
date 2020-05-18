@@ -64,3 +64,44 @@ class Observe_And_Learn_Samples_set5(models.Model):
 
     sample_img = models.ImageField(upload_to='images/')
     sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+
+class Classify_And_Learn_Samples_set1(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Classify and Learn Samples Set 1"
+
+    sample_img = models.ImageField(upload_to='images/')
+    sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Classify_And_Learn_Samples_set2(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Classify and Learn Samples Set 2"
+
+    sample_img = models.ImageField(upload_to='images/')
+    sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Classify_And_Learn_Samples_set3(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Classify and Learn Samples Set 3"
+
+    sample_img = models.ImageField(upload_to='images/')
+    sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Classify_And_Learn_Samples_set4(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Classify and Learn Samples Set 4"
+
+    sample_img = models.ImageField(upload_to='images/')
+    sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Classify_And_Learn_Samples_set5(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Classify and Learn Samples Set 5"
+
+    sample_img = models.ImageField(upload_to='images/')
+    sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)

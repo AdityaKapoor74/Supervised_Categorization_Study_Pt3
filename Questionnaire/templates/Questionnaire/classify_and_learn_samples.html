@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name=”viewport” content=”width=device-width, initial-scale=1″>
-    <title>Classify and Learn</title>
+    <title>Samples</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -73,20 +73,6 @@
           color: white;
         }
 
-        .container {
-          height: 200px;
-          position: relative;
-        }
-
-        .center {
-          margin: 0;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-        }
-
      </style>
 
 </head>
@@ -109,13 +95,26 @@
 <br>
 
 <body>
-    <h2 align="center">You have to categorize each fish like bjects into category A or category B.</h2>
-    <br/>
-    <h2 align="center">You have to learn by trial and error.</h2>
-    <br/>
-    <h2 align="center">It is possible to achieve 100% accuracy.</h2>
-    <div class="center">
-        <a align="center" type="submit" class="btn btn-success" href="{% url 'classify_and_learn_display_stimuli_type1' %}">Start</a>
-    </div>
+  <h2 align="center">Does this object belong to Category A or B?</h2>
+  <br/>
+    <form method="POST" action="{% url 'classify_and_learn_display_stimuli_type1' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+        <div id="wrapper">
+
+                <div class="centered">
+                    <img src="{{ samples.sample_img.url }}" class="img-fluid" style="width:213px;height:100px;">
+                    <br>
+                    <br>
+                    <div align="center">
+                        <button name="A" aligh="left" type="submit" class="button button1" style="margin: 0 auto;" >A</button>
+                        <button name="B" aligh="left" type="submit" class="button button1" style="margin: 0 auto;" >B</button>
+                    </div>
+
+{#                    <div align="right">#}
+{#                        <a aligh="right" type="submit" class="button button1" style="margin: 0 auto;" href="{% url 'fixation_screen_type1' %}">B</a>#}
+{#                    </div>#}
+                </div>
+        </div>
+    </form>
 </body>
 </html>

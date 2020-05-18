@@ -73,24 +73,24 @@
           color: white;
         }
 
-        div.container4 {
-            height: 10em;
-            position: relative }
-        div.container4 h1 {
-            margin: 0;
-            background: None;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-right: -50%;
-            transform: translate(-50%, -50%) }
-        div.container4 a {
-            margin: 0;
-            position: absolute;
-            top: 110%;
-            left: 50%;
-            margin-right: -50%;
-            transform: translate(-50%, -50%) }
+        {#div.container4 {#}
+        {#    height: 10em;#}
+        {#    position: relative }#}
+        {#div.container4 h1 {#}
+        {#    margin: 0;#}
+        {#    background: None;#}
+        {#    position: absolute;#}
+        {#    top: 50%;#}
+        {#    left: 50%;#}
+        {#    margin-right: -50%;#}
+        {#    transform: translate(-50%, -50%) }#}
+        {#div.container4 a {#}
+        {#    margin: 0;#}
+        {#    position: absolute;#}
+        {#    top: 110%;#}
+        {#    left: 50%;#}
+        {#    margin-right: -50%;#}
+        {#    transform: translate(-50%, -50%) }#}
 
      </style>
 
@@ -116,11 +116,15 @@
 <body>
   <br/>
   <br/>
-  <br/>
-  <br/>
-    <div class="container4">
-        <h1>+</h1>
-        <a type="submit" class="button button1" style="margin: 0 auto;" href="{% url 'observe_and_learn_display_stimuli_type1' %}">Continue</a>
-    </div>
+  <<div id="wrapper">
+        <div align="right" class="centered">
+            <h1> &emsp;+</h1>
+            <br>
+            <br>
+            <br>
+            <a align="right" type="submit" class="button button1" href="{% url 'observe_and_learn_display_stimuli_type1' %}">Continue</a>
+
+        </div>
+  </div>
 </body>
 </html>
