@@ -109,7 +109,7 @@ class Classify_And_Learn_Samples_set5(models.Model):
 class Test_set1(models.Model):
 
     class Meta:
-        verbose_name_plural = "Classify and Learn Samples Set 1"
+        verbose_name_plural = "Test Samples Set 1"
 
     sample_img = models.ImageField(upload_to='images/')
     sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
@@ -117,7 +117,7 @@ class Test_set1(models.Model):
 class Test_set2(models.Model):
 
     class Meta:
-        verbose_name_plural = "Classify and Learn Samples Set 2"
+        verbose_name_plural = "Test Samples Set 2"
 
     sample_img = models.ImageField(upload_to='images/')
     sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
@@ -125,7 +125,7 @@ class Test_set2(models.Model):
 class Test_set3(models.Model):
 
     class Meta:
-        verbose_name_plural = "Classify and Learn Samples Set 3"
+        verbose_name_plural = "Test Samples Set 3"
 
     sample_img = models.ImageField(upload_to='images/')
     sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
@@ -133,7 +133,7 @@ class Test_set3(models.Model):
 class Test_set4(models.Model):
 
     class Meta:
-        verbose_name_plural = "Classify and Learn Samples Set 4"
+        verbose_name_plural = "Test Samples Set 4"
 
     sample_img = models.ImageField(upload_to='images/')
     sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
@@ -141,7 +141,7 @@ class Test_set4(models.Model):
 class Test_set5(models.Model):
 
     class Meta:
-        verbose_name_plural = "Classify and Learn Samples Set 5"
+        verbose_name_plural = "Test Samples Set 5"
 
     sample_img = models.ImageField(upload_to='images/')
     sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
@@ -153,7 +153,7 @@ class UserResponse_Test_set1(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
-    iteration = models.IntegerField()
+    iteration = models.IntegerField(default=1)
 
 
 class UserResponse_Test_set2(models.Model):
@@ -163,7 +163,7 @@ class UserResponse_Test_set2(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set2, on_delete=models.CASCADE)
-    iteration = models.IntegerField()
+    iteration = models.IntegerField(default=1)
 
 class UserResponse_Test_set3(models.Model):
 
@@ -172,7 +172,7 @@ class UserResponse_Test_set3(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set3, on_delete=models.CASCADE)
-    iteration = models.IntegerField()
+    iteration = models.IntegerField(default=1)
 
 class UserResponse_Test_set4(models.Model):
 
@@ -181,7 +181,7 @@ class UserResponse_Test_set4(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set4, on_delete=models.CASCADE)
-    iteration = models.IntegerField()
+    iteration = models.IntegerField(default=1)
 
 class UserResponse_Test_set5(models.Model):
 
@@ -190,4 +190,4 @@ class UserResponse_Test_set5(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set5, on_delete=models.CASCADE)
-    iteration = models.IntegerField()
+    iteration = models.IntegerField(default=1)

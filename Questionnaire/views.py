@@ -308,6 +308,7 @@ def test_block_display_stimuli_type1(request):
             user_response.user_option = "B"
         user_response.iteration = request.session['test_iteration']
         user_response.save()
+        return render(request,"Questionnaire/fixature_screen_test.html")
 
     if len(request.session['test_samples'])!=0:
         request.session['quid'] = request.session['test_samples'][0]
@@ -366,7 +367,7 @@ def test_block_display_stimuli_type1(request):
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set5.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
-        return render(request, 'Questionnaire/classify_and_learn_samples.html', {'samples': samples})
+        return render(request, 'Questionnaire/test_samples.html', {'samples': samples})
 
 def common_features_test_phase_type1(request):
     return render(request,"Questionnaire/common_features_test_phase.html")
