@@ -161,7 +161,7 @@ class UserResponse_Test_set2(models.Model):
         verbose_name_plural = "User Response for Test phase set 2"
 
     user_option = models.CharField(max_length=10,default=None)
-    quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
+    quid = models.ForeignKey(Test_set2, on_delete=models.CASCADE)
 
 class UserResponse_Test_set3(models.Model):
 
@@ -169,7 +169,7 @@ class UserResponse_Test_set3(models.Model):
         verbose_name_plural = "User Response for Test phase set 3"
 
     user_option = models.CharField(max_length=10,default=None)
-    quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
+    quid = models.ForeignKey(Test_set3, on_delete=models.CASCADE)
 
 class UserResponse_Test_set4(models.Model):
 
@@ -177,7 +177,7 @@ class UserResponse_Test_set4(models.Model):
         verbose_name_plural = "User Response for Test phase set 4"
 
     user_option = models.CharField(max_length=10,default=None)
-    quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
+    quid = models.ForeignKey(Test_set4, on_delete=models.CASCADE)
 
 class UserResponse_Test_set5(models.Model):
 
@@ -185,4 +185,4 @@ class UserResponse_Test_set5(models.Model):
         verbose_name_plural = "User Response for Test phase set 5"
 
     user_option = models.CharField(max_length=10,default=None)
-    quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
+    quid = models.ForeignKey(Test_set5, on_delete=models.CASCADE)
