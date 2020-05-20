@@ -153,6 +153,7 @@ class UserResponse_Test_set1(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
+    iteration = models.IntegerField()
 
 
 class UserResponse_Test_set2(models.Model):
@@ -162,6 +163,7 @@ class UserResponse_Test_set2(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set2, on_delete=models.CASCADE)
+    iteration = models.IntegerField()
 
 class UserResponse_Test_set3(models.Model):
 
@@ -170,6 +172,7 @@ class UserResponse_Test_set3(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set3, on_delete=models.CASCADE)
+    iteration = models.IntegerField()
 
 class UserResponse_Test_set4(models.Model):
 
@@ -178,6 +181,7 @@ class UserResponse_Test_set4(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set4, on_delete=models.CASCADE)
+    iteration = models.IntegerField()
 
 class UserResponse_Test_set5(models.Model):
 
@@ -186,3 +190,4 @@ class UserResponse_Test_set5(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set5, on_delete=models.CASCADE)
+    iteration = models.IntegerField()

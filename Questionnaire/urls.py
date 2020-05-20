@@ -20,4 +20,7 @@ urlpatterns = [
     path("test_phase/", views.test_phase_type1, name='test_phase_type1'),
     path("test_block/", views.test_block_type1, name='test_block_type1'),
     path("test_block_samples/", views.test_block_display_stimuli_type1, name='test_block_display_stimuli_type1'),
+    path("common_features_test_phase/", views.common_features_test_phase_type1, name='common_features_test_phase_type1'),
+    path("common_features_test_phase_block/", views.common_features_test_phase_block_type1, name='common_features_test_phase_block_type1'),
+
 ]
