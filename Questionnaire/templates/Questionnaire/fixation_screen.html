@@ -28,7 +28,6 @@
             margin-left : -100px
         }
 
-
         #wrapper {
           display: flex;
         }
@@ -60,12 +59,14 @@
           -webkit-transition-duration: 0.4s; /* Safari */
           transition-duration: 0.4s;
           cursor: pointer;
+
         }
 
         .button1 {
           background-color: white;
           color: black;
           border: 2px solid #4CAF50;
+          margin-left : 10px
         }
 
         .button1:hover {
@@ -118,11 +119,16 @@
   <br/>
   <<div id="wrapper">
         <div align="right" class="centered">
+            <br>
             <h1> &emsp;+</h1>
             <br>
             <br>
             <br>
-            <a align="right" type="submit" class="button button1" href="{% url 'observe_and_learn_display_stimuli_type1' %}">Continue</a>
+            <br>
+            <br>
+            <div style = "position:relative; left:50px;" align="center">
+                <a align="right" type="submit" class="button button1" href="{% url 'observe_and_learn_display_stimuli_type1' %}">Continue</a>
+            </div>
         </div>
   </div>
 </body>

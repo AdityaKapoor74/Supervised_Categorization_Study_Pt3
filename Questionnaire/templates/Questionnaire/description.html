@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″>
+    <title>Description</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+        /* Split the screen in half */
+        LABEL.indented-checkbox-text
+        {
+          margin-left: 2em;
+          display: block;
+          position: relative;
+          margin-top: -2.0em;  /* make this margin match whatever your line-height is */
+          line-height: 1.4em;  /* can be set here, or elsewehere */
+        }
+        body {
+            padding-left: 20px;
+        }
+
+        /* If you want the content centered horizontally and vertically */
+        .centered {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            bottom: 10px;
+            margin-left : -200px
+        }
+
+
+        #wrapper {
+          display: flex;
+        }
+
+        .centered img {
+          width: 100px;
+        }
+
+
+        .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 16px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          -webkit-transition-duration: 0.4s; /* Safari */
+          transition-duration: 0.4s;
+          cursor: pointer;
+        }
+
+        body{color:#444;font:100%/1.4 sans-serif;}
+
+
+        /* CUSTOM RADIO & CHECKBOXES
+           http://stackoverflow.com/a/17541916/383904 */
+        .rad,
+        .ckb{
+          cursor: pointer;
+          user-select: none;
+          -webkit-user-select: none;
+          -webkit-touch-callout: none;
+        }
+        .rad > input,
+        .ckb > input{ /* HIDE ORG RADIO & CHECKBOX */
+          position: absolute;
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+        /* RADIO & CHECKBOX STYLES */
+        /* DEFAULT <i> STYLE */
+        .rad > i,
+        .ckb > i{
+          display: inline-block;
+          vertical-align: middle;
+          width:  16px;
+          height: 16px;
+          border-radius: 50%;
+          transition: 0.2s;
+          box-shadow: inset 0 0 0 8px #fff;
+          border: 1px solid gray;
+          background: gray;
+        }
+        /* CHECKBOX OVERWRITE STYLES */
+        .ckb > i {
+          width: 25px;
+          border-radius: 3px;
+        }
+        .rad:hover > i{ /* HOVER <i> STYLE */
+          box-shadow: inset 0 0 0 3px #fff;
+          background: gray;
+        }
+        .rad > input:checked + i{ /* (RADIO CHECKED) <i> STYLE */
+          box-shadow: inset 0 0 0 3px #fff;
+          background: orange;
+        }
+        /* CHECKBOX */
+        .ckb > input + i:after{
+          content: "";
+          display: block;
+          height: 12px;
+          width:  12px;
+          margin: 2px;
+          border-radius: inherit;
+          transition: inherit;
+          background: gray;
+        }
+        .ckb > input:checked + i:after{ /* (RADIO CHECKED) <i> STYLE */
+          margin-left: 11px;
+          background:  orange;
+        }
+
+        .button1 {
+          background-color: white;
+          color: black;
+          border: 2px solid #4CAF50;
+        }
+
+        .button1:hover {
+          background-color: #4CAF50;
+          color: white;
+        }
+
+     </style>
+
+</head>
+<header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</header>
+<br>
+<br>
+<br>
+<br>
+<body>
+{% if error %}
+<h3>{{ error }}</h3>
+<br>
+<br>
+{% endif %}
+<h3 align="center">Give a description of how you categorized that will allow another person to read the description and replicate your sort pattern.</h3>
+<br>
+<br>
+<form method="POST" action = {% url 'save_responses_description' %}>
+{% csrf_token %}
+    <div id="wrapper">
+        <div class="centered">
+            <textarea name="description" rows="8" cols="50" placeholder="You must enter your description here"></textarea>
+            <br>
+            <br>
+            <button type="submit" class="button button1">Submit Answer</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

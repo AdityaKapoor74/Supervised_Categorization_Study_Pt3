@@ -13,17 +13,11 @@ class UserDetails(models.Model):
     city = models.CharField(max_length=100,blank=True,null=True,default=None)
     country = models.CharField(max_length=100,blank=True,null=True,default=None)
     age = models.IntegerField(blank=True, null=True, default=None)
+    set_num = models.CharField(max_length=10,blank=True,null=True,default=None)
 
     def __str__(self):
         return self.first_name+' '+self.last_name
 
-class SetNumber(models.Model):
-
-    class Meta:
-        verbose_name_plural = "Set Number"
-
-    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
-    set_num = models.CharField(max_length=10,blank=True,null=True,default=None)
 
 class Observe_And_Learn_Samples_set1(models.Model):
 
@@ -153,6 +147,7 @@ class UserResponse_Test_set1(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
 
 
@@ -163,6 +158,7 @@ class UserResponse_Test_set2(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set2, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
 
 class UserResponse_Test_set3(models.Model):
@@ -172,6 +168,7 @@ class UserResponse_Test_set3(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set3, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
 
 class UserResponse_Test_set4(models.Model):
@@ -181,6 +178,7 @@ class UserResponse_Test_set4(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set4, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
 
 class UserResponse_Test_set5(models.Model):
@@ -190,4 +188,108 @@ class UserResponse_Test_set5(models.Model):
 
     user_option = models.CharField(max_length=10,default=None)
     quid = models.ForeignKey(Test_set5, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+
+
+class Common_Features_Test_set1(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Features Test Samples Set 1"
+
+    sample_img = models.ImageField(upload_to='images/')
+    # sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Common_Features_Test_set2(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Features Test Samples Set 2"
+
+    sample_img = models.ImageField(upload_to='images/')
+    # sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Common_Features_Test_set3(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Features Test Samples Set 3"
+
+    sample_img = models.ImageField(upload_to='images/')
+    # sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Common_Features_Test_set4(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Features Test Samples Set 4"
+
+    sample_img = models.ImageField(upload_to='images/')
+    # sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class Common_Features_Test_set5(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Features Test Samples Set 5"
+
+    sample_img = models.ImageField(upload_to='images/')
+    # sample_label = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+class UserResponse_Common_Features_Test_set1(models.Model):
+
+    class Meta:
+        verbose_name_plural = "User Response for Common Features Test phase set 1"
+
+    user_option = models.CharField(max_length=10,default=None)
+    quid = models.ForeignKey(Common_Features_Test_set1, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+    iteration = models.IntegerField(default=1)
+
+
+class UserResponse_Common_Features_Test_set2(models.Model):
+
+    class Meta:
+        verbose_name_plural = "User Response for Common Features Test phase set 2"
+
+    user_option = models.CharField(max_length=10,default=None)
+    quid = models.ForeignKey(Common_Features_Test_set2, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+    iteration = models.IntegerField(default=1)
+
+class UserResponse_Common_Features_Test_set3(models.Model):
+
+    class Meta:
+        verbose_name_plural = "User Response for Common Features Test phase set 3"
+
+    user_option = models.CharField(max_length=10,default=None)
+    quid = models.ForeignKey(Common_Features_Test_set3, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+    iteration = models.IntegerField(default=1)
+
+class UserResponse_Common_Features_Test_set4(models.Model):
+
+    class Meta:
+        verbose_name_plural = "User Response for Common Features Test phase set 4"
+
+    user_option = models.CharField(max_length=10,default=None)
+    quid = models.ForeignKey(Common_Features_Test_set4, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+    iteration = models.IntegerField(default=1)
+
+class UserResponse_Common_Features_Test_set5(models.Model):
+
+    class Meta:
+        verbose_name_plural = "User Response for Common Features Test phase set 5"
+
+    user_option = models.CharField(max_length=10,default=None)
+    quid = models.ForeignKey(Common_Features_Test_set5, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+    iteration = models.IntegerField(default=1)
+
+
+class UserResponsesForDescription(models.Model):
+
+    class Meta:
+        verbose_name_plural = "User Responses for Description"
+
+    description = models.TextField(default=None, null=True, blank=True)
+    set_number = models.CharField(max_length=10,blank=True,null=True,default=None)
+
+    user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)

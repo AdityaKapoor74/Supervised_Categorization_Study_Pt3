@@ -7,8 +7,8 @@ from validate_email import *
 from django.core.exceptions import ValidationError
 import random
 
-def register(request):
-    return render(request,'Questionnaire/register.html')
+def register(request,num):
+    return render(request,'Questionnaire/register.html',{'set_num':num})
 
 def contact(request):
     return render(request,'Questionnaire/contact.html')
@@ -21,7 +21,8 @@ def terms(request):
 
 
 def register_type1_done(request):
-
+    # print("REQUEST:")
+    # print(request)
     if request.method=="POST":
         if request.POST['firstname'] and request.POST['lastname'] and request.POST['email'] and request.POST['city'] and request.POST['country'] and request.POST['age']:
             # print('Hello')
@@ -37,6 +38,8 @@ def register_type1_done(request):
                 user.first_name = request.POST['firstname']
                 user.last_name = request.POST['lastname']
                 user.age = request.POST['age']
+                user.set_num = request.POST['set_num']
+                request.session['setnumber'] = request.POST['set_num']
 
                 option = request.POST.get("option",None)
                 if option in ["Male","Female","Other"]:
@@ -60,7 +63,7 @@ def register_type1_done(request):
                 request.session['user_id'] = user.id
                 request.session['iteration'] = 1
                 request.session['score'] = 0
-                request.session['setnumber'] = -1
+
                 request.session['obs_learn_samples'] = []
                 request.session['flag_training'] = False
                 request.session['flag_test'] = False
@@ -71,55 +74,19 @@ def register_type1_done(request):
                 request.session['performance'] = ""
                 request.session['test_iteration'] = 1
                 request.session['test_samples'] = []
+                request.session['common_features_test_samples'] = []
                 request.session['quid'] = -1
                 request.session['test_phase_flag'] = False
                 request.session['common_features_iteration'] = 1
+                request.session['common_features_test_phase_flag'] = False
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
-            return render(request,'Questionnaire/decide_set_number.html')
+            return render(request,'Questionnaire/welcome.html')
         else:
             return render(request,'Questionnaire/register.html',{'error':'All fields are required.'})
     else:
         return render(request,'Questionnaire/register.html')
-
-def decide_set_number(request):
-    return render(request,'Questionnaire/decide_set_number.html')
-
-def set_number_register_type1(request):
-    if request.method=="POST":
-        user_response = SetNumber()
-        try:
-            if request.POST.get("set1"):
-                user_response.set_num = "set1"
-                request.session['setnumber'] = 1
-            elif request.POST.get("set2"):
-                user_response.set_num = "set2"
-                request.session['setnumber'] = 2
-            elif request.POST.get("set3"):
-                user_response.set_num = "set3"
-                request.session['setnumber'] = 3
-            elif request.POST.get("set4"):
-                user_response.set_num = "set4"
-                request.session['setnumber'] = 4
-            elif request.POST.get("set5"):
-                user_response.set_num = "set5"
-                request.session['setnumber'] = 5
-            user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
-            user_response.save()
-
-            print("in try")
-            return render(request, 'Questionnaire/welcome.html')
-
-        except ValueError as e:
-            print("in exception")
-            print(e)
-            return render(request, 'Questionnaire/decide_set_number.html',
-                          {'error': 'Please select either one of the sets.'})
-
-    else:
-        print("in else")
-        return render(request,'Questionnaire/decide_set_number.html')
 
 def training_phase_start_type1(request):
     return render(request, 'Questionnaire/training_phase_start.html')
@@ -307,6 +274,7 @@ def test_block_display_stimuli_type1(request):
         else:
             user_response.user_option = "B"
         user_response.iteration = request.session['test_iteration']
+        user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.save()
         return render(request,"Questionnaire/fixature_screen_test.html")
 
@@ -331,10 +299,10 @@ def test_block_display_stimuli_type1(request):
         return render(request, 'Questionnaire/test_samples.html',{'samples':samples})
 
     else:
-        if request.session['test_phase_flag'] == True and request.session['test_iteration']<2:
+        if request.session['test_phase_flag'] == True and request.session['test_iteration']<4:
             request.session['test_phase_flag'] = False
             return render(request, "Questionnaire/break.html")
-        if request.session['test_phase_flag'] == True and request.session['test_iteration']>2:
+        if request.session['test_phase_flag'] == True and request.session['test_iteration']>3:
             return render(request,"Questionnaire/break_to_features.html")
 
         if request.session['setnumber'] == 1:
@@ -374,3 +342,112 @@ def common_features_test_phase_type1(request):
 
 def common_features_test_phase_block_type1(request):
     return render(request,"Questionnaire/common_features_test_phase_block.html",{"iteration":request.session['common_features_iteration']})
+
+def common_features_test_block_display_stimuli_type1(request):
+    if request.method=="POST":
+        option = request.POST.get("option",None)
+        if request.session['setnumber'] == 1:
+            user_response = UserResponse_Common_Features_Test_set1()
+            user_response.quid = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 2:
+            user_response = UserResponse_Common_Features_Test_set2()
+            user_response.quid = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 3:
+            user_response = UserResponse_Common_Features_Test_set3()
+            user_response.quid = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 4:
+            user_response = UserResponse_Common_Features_Test_set4()
+            user_response.quid = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 5:
+            user_response = UserResponse_Common_Features_Test_set5()
+            user_response.quid = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
+        if option=="A":
+            user_response.user_option = "A"
+            request.session['correct_answer'] = "A"
+        else:
+            user_response.user_option = "B"
+            request.session['correct_answer'] = "B"
+        user_response.iteration = request.session['common_features_iteration']
+        user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
+        user_response.save()
+        return render(request,"Questionnaire/selected_option.html",{'correct_answer':request.session['correct_answer']})
+
+    if len(request.session['common_features_test_samples'])!=0:
+        request.session['quid'] = request.session['common_features_test_samples'][0]
+        request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+
+        if len(request.session['common_features_test_samples']) == 0:
+            request.session['common_features_iteration']+=1
+            request.session['common_features_test_phase_flag'] = True
+
+        if request.session['setnumber'] == 1:
+            samples = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 2:
+            samples = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 3:
+            samples = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 4:
+            samples = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
+        elif request.session['setnumber'] == 5:
+            samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
+        return render(request, 'Questionnaire/common_features_test_samples.html',{'samples':samples})
+
+    else:
+        if request.session['common_features_test_phase_flag'] == True and request.session['common_features_iteration']<4:
+            request.session['common_features_test_phase_flag'] = False
+            return render(request, "Questionnaire/break_common_features.html")
+        if request.session['common_features_test_phase_flag'] == True and request.session['common_features_iteration']>3:
+            return render(request,"Questionnaire/description.html")
+
+        if request.session['setnumber'] == 1:
+            request.session['common_features_test_samples'] = list(Common_Features_Test_set1.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['common_features_test_samples'])
+            request.session['quid'] = request.session['common_features_test_samples'][0]
+            samples = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
+            request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+        elif request.session['setnumber'] == 2:
+            request.session['common_features_test_samples'] = list(Common_Features_Test_set2.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['common_features_test_samples'])
+            request.session['quid'] = request.session['common_features_test_samples'][0]
+            samples = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
+            request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+        elif request.session['setnumber'] == 3:
+            request.session['common_features_test_samples'] = list(Common_Features_Test_set3.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['common_features_test_samples'])
+            request.session['quid'] = request.session['common_features_test_samples'][0]
+            samples = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
+            request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+        elif request.session['setnumber'] == 4:
+            request.session['common_features_test_samples'] = list(Common_Features_Test_set4.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['common_features_test_samples'])
+            request.session['quid'] = request.session['common_features_test_samples'][0]
+            samples = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
+            request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+        elif request.session['setnumber'] == 5:
+            request.session['common_features_test_samples'] = list(Common_Features_Test_set5.objects.all().values_list('id', flat=True))
+            random.shuffle(request.session['test_samples'])
+            request.session['quid'] = request.session['common_features_test_samples'][0]
+            samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
+            request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+        return render(request, 'Questionnaire/common_features_test_samples.html', {'samples': samples})
+
+
+def save_responses_description(request):
+    if request.method == "POST":
+        try:
+            desc = request.POST.get('description', None)
+            if len(desc) != 0:
+                user_response = UserResponsesForDescription()
+                user_response.description = desc
+                uid = request.session['user_id']
+                user_response.user = UserDetails.objects.get(pk=uid)
+                user_response.set_number = request.session['setnumber']
+                user_response.save()
+
+            else:
+                return render(request, 'Questionnaire/description.html', {'error': 'Please fill in the description'})
+
+        except ValueError as e:
+            return render(request, 'Questionnaire/description.html', {'error': 'Please fill in the description'})
+
+    return render(request, 'Questionnaire/thankyou.html')
