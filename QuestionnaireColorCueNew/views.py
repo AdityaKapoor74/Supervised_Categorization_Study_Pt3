@@ -20,7 +20,7 @@ def terms(request):
     return render(request,'Questionnaire/terms.html')
 
 
-def register_type1_done(request):
+def register_type3_done(request):
     # print("REQUEST:")
     # print(request)
     if request.method=="POST":
@@ -88,17 +88,17 @@ def register_type1_done(request):
     else:
         return render(request,'Questionnaire/register.html')
 
-def training_phase_start_type1(request):
+def training_phase_start_type3(request):
     return render(request, 'Questionnaire/training_phase_start.html')
 
-def observe_and_learn_type1(request):
+def observe_and_learn_type3(request):
     return render(request, 'Questionnaire/observe_and_learn.html',
                   {'iteration': request.session['iteration']})
 
-def observe_and_learn_instructions_type1(request):
+def observe_and_learn_instructions_type3(request):
     return render(request,'Questionnaire/observe_and_learn_instructions.html')
 
-def observe_and_learn_display_stimuli_type1(request):
+def observe_and_learn_display_stimuli_type3(request):
     if len(request.session['obs_learn_samples'])!=0:
         id = request.session['obs_learn_samples'][0]
         request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
@@ -154,13 +154,13 @@ def observe_and_learn_display_stimuli_type1(request):
 
         return render(request, 'Questionnaire/observe_and_learn_samples.html', {'samples': samples})
 
-def fixation_screen_type1(request):
+def fixation_screen_type3(request):
     return render(request,'Questionnaire/fixation_screen.html')
 
-def classify_and_learn_instructions_type1(request):
+def classify_and_learn_instructions_type3(request):
     return render(request,'Questionnaire/classify_and_learn_instructions.html')
 
-def classify_and_learn_display_stimuli_type1(request):
+def classify_and_learn_display_stimuli_type3(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
         if option==request.session['correct_answer']:
@@ -224,10 +224,10 @@ def classify_and_learn_display_stimuli_type1(request):
         request.session['correct_answer'] = samples.sample_label
         return render(request, 'Questionnaire/classify_and_learn_samples.html', {'samples': samples})
 
-def fixation_screen_classify_type1(request):
+def fixation_screen_classify_type3(request):
     return render(request, 'Questionnaire/fixation_screen_classify.html')
 
-def classify_performance_type1(request):
+def classify_performance_type3(request):
     if request.session['score']>8:
         request.session['result']+=1
 
@@ -242,16 +242,16 @@ def classify_performance_type1(request):
         #Testing phase
         return render(request,"Questionnaire/test_phase.html")
 
-def classify_result_type1(request):
+def classify_result_type3(request):
     return render(request,"Questionnaire/classify_performance.html",{"performance_history":request.session['performance']})
 
-def test_phase_type1(request):
+def test_phase_type3(request):
     return render(request,"Questionnaire/test_phase_instructions.html")
 
-def test_block_type1(request):
+def test_block_type3(request):
     return render(request,"Questionnaire/test_block.html",{"iteration":request.session['test_iteration']})
 
-def test_block_display_stimuli_type1(request):
+def test_block_display_stimuli_type3(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
         if request.session['setnumber'] == 1:
@@ -337,13 +337,13 @@ def test_block_display_stimuli_type1(request):
             request.session['test_samples'] = request.session['test_samples'][1:]
         return render(request, 'Questionnaire/test_samples.html', {'samples': samples})
 
-def common_features_test_phase_type1(request):
+def common_features_test_phase_type3(request):
     return render(request,"Questionnaire/common_features_test_phase.html")
 
-def common_features_test_phase_block_type1(request):
+def common_features_test_phase_block_type3(request):
     return render(request,"Questionnaire/common_features_test_phase_block.html",{"iteration":request.session['common_features_iteration']})
 
-def common_features_test_block_display_stimuli_type1(request):
+def common_features_test_block_display_stimuli_type3(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
         if request.session['setnumber'] == 1:
