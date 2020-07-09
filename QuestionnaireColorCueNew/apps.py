@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class QuestionnairecolorcuenewConfig(AppConfig):
-    name = 'QuestionnaireColorCueNew'
+class QuestionnaireConfig(AppConfig):
+    name = 'Questionnaire'

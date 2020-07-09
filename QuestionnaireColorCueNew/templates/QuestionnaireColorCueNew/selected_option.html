@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″>
+    <title>Response Feedback</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+        /* Split the screen in half */
+        body {
+            padding-left: 20px;
+        }
+
+        /* If you want the content centered horizontally and vertically */
+        .centered {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            bottom: 10px;
+            margin-left : -100px
+        }
+
+
+        #wrapper {
+          display: flex;
+        }
+
+        #left {
+          flex: 0 0 70%;
+        }
+
+        #right {
+          flex: 1;
+        }
+
+        .centered img {
+          width: 100px;
+          {#border-radius: 50%;#}
+        }
+
+
+        .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 16px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          -webkit-transition-duration: 0.4s; /* Safari */
+          transition-duration: 0.4s;
+          cursor: pointer;
+        }
+
+        .button1 {
+          background-color: white;
+          color: black;
+          border: 2px solid #4CAF50;
+        }
+
+        .button1:hover {
+          background-color: #4CAF50;
+          color: white;
+        }
+
+        .container {
+          height: 200px;
+          position: relative;
+        }
+
+        .center {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+        }
+
+     </style>
+
+</head>
+<header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</header>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<body>
+    <h2 align="center">Your Response</h2>
+    <br/>
+    <h2 align="center">{{ correct_answer }}</h2>
+    <br/>
+    <div class="center">
+        <a align="center" type="submit" class="btn btn-success" href="{% url 'common_features_test_block_display_stimuli_type1' %}">Continue</a>
+    </div>
+</body>
+</html>
