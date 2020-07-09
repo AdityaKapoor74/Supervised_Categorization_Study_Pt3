@@ -97,7 +97,7 @@
 <body>
   <h2 align="center">Does this object shown below belong to Category A or B?</h2>
   <br/>
-    <form method="POST" action="{% url 'test_block_display_stimuli_type1' %}" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'test_block_display_stimuli_type2' %}" enctype="multipart/form-data">
             {% csrf_token %}
         <div id="wrapper">
 
@@ -111,7 +111,7 @@
                     </div>
 
 {#                    <div align="right">#}
-{#                        <a aligh="right" type="submit" class="button button1" style="margin: 0 auto;" href="{% url 'fixation_screen_type1' %}">B</a>#}
+{#                        <a aligh="right" type="submit" class="button button1" style="margin: 0 auto;" href="{% url 'fixation_screen_type2' %}">B</a>#}
 {#                    </div>#}
                 </div>
         </div>
