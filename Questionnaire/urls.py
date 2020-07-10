@@ -3,9 +3,9 @@ from .import views
 
 urlpatterns = [
     path('set<int:num>/', views.register, name='register_type1'),
-    path('^contact/', views.contact, name='contact_type1'),
-    path('^about/', views.about, name='about_type1'),
-    path("^terms/", views.terms, name='terms_type1'),
+    path('contact/', views.contact, name='contact_type1'),
+    path('about/', views.about, name='about_type1'),
+    path("terms/", views.terms, name='terms_type1'),
     path("registered/", views.register_type1_done, name='register_type1_done'),
     path("training_phase_start/", views.training_phase_start_type1, name='training_phase_start_type1'),
     path("observe_and_learn/", views.observe_and_learn_type1, name='observe_and_learn_type1'),
