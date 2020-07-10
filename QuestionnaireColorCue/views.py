@@ -8,16 +8,16 @@ from django.core.exceptions import ValidationError
 import random
 
 def register(request,num):
-    return render(request,'Questionnaire/register.html',{'set_num':num})
+    return render(request,'QuestionnaireColorCue/register.html',{'set_num':num})
 
 def contact(request):
-    return render(request,'Questionnaire/contact.html')
+    return render(request,'QuestionnaireColorCue/contact.html')
 
 def about(request):
-    return render(request,'Questionnaire/about.html')
+    return render(request,'QuestionnaireColorCue/about.html')
 
 def terms(request):
-    return render(request,'Questionnaire/terms.html')
+    return render(request,'QuestionnaireColorCue/terms.html')
 
 
 def register_type2_done(request):
@@ -33,7 +33,7 @@ def register_type2_done(request):
                 try:
                     validate_email(email)
                 except ValidationError as e:
-                    return render(request,'Questionnaire/register.html',{'error':'Please verify your email.'})
+                    return render(request,'QuestionnaireColorCue/register.html',{'error':'Please verify your email.'})
                 user.email=email
                 user.first_name = request.POST['firstname']
                 user.last_name = request.POST['lastname']
@@ -50,14 +50,14 @@ def register_type2_done(request):
                     elif option=="Other":
                         user.gender="Other"
                 else:
-                    return render(request, 'Questionnaire/register.html',
+                    return render(request, 'QuestionnaireColorCue/register.html',
                                       {'error': 'All fields are required.'})
 
                 user.city = request.POST['city']
                 user.country = request.POST['country']
 
                 if 'terms' not in request.POST:
-                    return render(request, 'Questionnaire/register.html', {'error': 'Please accept the terms and conditions.'})
+                    return render(request, 'QuestionnaireColorCue/register.html', {'error': 'Please accept the terms and conditions.'})
 
                 user.save()
                 request.session['user_id'] = user.id
@@ -80,23 +80,23 @@ def register_type2_done(request):
                 request.session['common_features_iteration'] = 1
                 request.session['common_features_test_phase_flag'] = False
             except ValueError as e:
-                return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
+                return render(request,'QuestionnaireColorCue/register.html',{'error':'Incorrect values.Please try again.'})
 
-            return render(request,'Questionnaire/welcome.html')
+            return render(request,'QuestionnaireColorCue/welcome.html')
         else:
-            return render(request,'Questionnaire/register.html',{'error':'All fields are required.'})
+            return render(request,'QuestionnaireColorCue/register.html',{'error':'All fields are required.'})
     else:
-        return render(request,'Questionnaire/register.html')
+        return render(request,'QuestionnaireColorCue/register.html')
 
 def training_phase_start_type2(request):
-    return render(request, 'Questionnaire/training_phase_start.html')
+    return render(request, 'QuestionnaireColorCue/training_phase_start.html')
 
 def observe_and_learn_type2(request):
-    return render(request, 'Questionnaire/observe_and_learn.html',
+    return render(request, 'QuestionnaireColorCue/observe_and_learn.html',
                   {'iteration': request.session['iteration']})
 
 def observe_and_learn_instructions_type2(request):
-    return render(request,'Questionnaire/observe_and_learn_instructions.html')
+    return render(request,'QuestionnaireColorCue/observe_and_learn_instructions.html')
 
 def observe_and_learn_display_stimuli_type2(request):
     if len(request.session['obs_learn_samples'])!=0:
@@ -116,11 +116,11 @@ def observe_and_learn_display_stimuli_type2(request):
         elif request.session['setnumber'] == 5:
             samples = Observe_And_Learn_Samples_set5.objects.get(pk=id)
 
-        return render(request, 'Questionnaire/observe_and_learn_samples.html',{'samples':samples})
+        return render(request, 'QuestionnaireColorCue/observe_and_learn_samples.html',{'samples':samples})
 
     else:
         if request.session['flag_training'] == True:
-            return render(request,'Questionnaire/classify_and_learn.html',{'iteration': request.session['iteration']})
+            return render(request,'QuestionnaireColorCue/classify_and_learn.html',{'iteration': request.session['iteration']})
         if request.session['setnumber'] == 1:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
@@ -152,22 +152,22 @@ def observe_and_learn_display_stimuli_type2(request):
             samples = Observe_And_Learn_Samples_set5.objects.get(pk=id)
             request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
 
-        return render(request, 'Questionnaire/observe_and_learn_samples.html', {'samples': samples})
+        return render(request, 'QuestionnaireColorCue/observe_and_learn_samples.html', {'samples': samples})
 
 def fixation_screen_type2(request):
-    return render(request,'Questionnaire/fixation_screen.html')
+    return render(request,'QuestionnaireColorCue/fixation_screen.html')
 
 def classify_and_learn_instructions_type2(request):
-    return render(request,'Questionnaire/classify_and_learn_instructions.html')
+    return render(request,'QuestionnaireColorCue/classify_and_learn_instructions.html')
 
 def classify_and_learn_display_stimuli_type2(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
         if option==request.session['correct_answer']:
             request.session['score'] += 1
-            return render(request,"Questionnaire/fixation_screen_classify.html")
+            return render(request,"QuestionnaireColorCue/fixation_screen_classify.html")
         else:
-            return render(request,"Questionnaire/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer']})
+            return render(request,"QuestionnaireColorCue/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer']})
 
     if len(request.session['classify_learn_samples'])!=0:
         id = request.session['classify_learn_samples'][0]
@@ -185,12 +185,12 @@ def classify_and_learn_display_stimuli_type2(request):
         elif request.session['setnumber'] == 5:
             samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
         request.session['correct_answer'] = samples.sample_label
-        return render(request, 'Questionnaire/classify_and_learn_samples.html',{'samples':samples})
+        return render(request, 'QuestionnaireColorCue/classify_and_learn_samples.html',{'samples':samples})
 
     else:
         if request.session['flag_test'] == True:
             request.session['performance']+=str(request.session['score']*10)+"% "
-            return render(request,'Questionnaire/classify_result.html',{"performance":request.session['score']*10,"correct":request.session['score'],"wrong":10-request.session['score']})
+            return render(request,'QuestionnaireColorCue/classify_result.html',{"performance":request.session['score']*10,"correct":request.session['score'],"wrong":10-request.session['score']})
         if request.session['setnumber'] == 1:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
@@ -222,10 +222,10 @@ def classify_and_learn_display_stimuli_type2(request):
             samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         request.session['correct_answer'] = samples.sample_label
-        return render(request, 'Questionnaire/classify_and_learn_samples.html', {'samples': samples})
+        return render(request, 'QuestionnaireColorCue/classify_and_learn_samples.html', {'samples': samples})
 
 def fixation_screen_classify_type2(request):
-    return render(request, 'Questionnaire/fixation_screen_classify.html')
+    return render(request, 'QuestionnaireColorCue/fixation_screen_classify.html')
 
 def classify_performance_type2(request):
     if request.session['score']>8:
@@ -237,19 +237,19 @@ def classify_performance_type2(request):
         request.session['flag_training'] = False
         request.session['score'] = 0
         #check for iterations if greater than 10 : what to do?
-        return render(request,"Questionnaire/observe_and_learn.html",{"iteration":request.session['iteration']})
+        return render(request,"QuestionnaireColorCue/observe_and_learn.html",{"iteration":request.session['iteration']})
     else:
         #Testing phase
-        return render(request,"Questionnaire/test_phase.html")
+        return render(request,"QuestionnaireColorCue/test_phase.html")
 
 def classify_result_type2(request):
-    return render(request,"Questionnaire/classify_performance.html",{"performance_history":request.session['performance']})
+    return render(request,"QuestionnaireColorCue/classify_performance.html",{"performance_history":request.session['performance']})
 
 def test_phase_type2(request):
-    return render(request,"Questionnaire/test_phase_instructions.html")
+    return render(request,"QuestionnaireColorCue/test_phase_instructions.html")
 
 def test_block_type2(request):
-    return render(request,"Questionnaire/test_block.html",{"iteration":request.session['test_iteration']})
+    return render(request,"QuestionnaireColorCue/test_block.html",{"iteration":request.session['test_iteration']})
 
 def test_block_display_stimuli_type2(request):
     if request.method=="POST":
@@ -276,7 +276,7 @@ def test_block_display_stimuli_type2(request):
         user_response.iteration = request.session['test_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.save()
-        return render(request,"Questionnaire/fixature_screen_test.html")
+        return render(request,"QuestionnaireColorCue/fixature_screen_test.html")
 
     if len(request.session['test_samples'])!=0:
         request.session['quid'] = request.session['test_samples'][0]
@@ -296,14 +296,14 @@ def test_block_display_stimuli_type2(request):
             samples = Test_set4.objects.get(pk=request.session['quid'])
         elif request.session['setnumber'] == 5:
             samples = Test_set5.objects.get(pk=request.session['quid'])
-        return render(request, 'Questionnaire/test_samples.html',{'samples':samples})
+        return render(request, 'QuestionnaireColorCue/test_samples.html',{'samples':samples})
 
     else:
         if request.session['test_phase_flag'] == True and request.session['test_iteration']<4:
             request.session['test_phase_flag'] = False
-            return render(request, "Questionnaire/break.html")
+            return render(request, "QuestionnaireColorCue/break.html")
         if request.session['test_phase_flag'] == True and request.session['test_iteration']>3:
-            return render(request,"Questionnaire/break_to_features.html")
+            return render(request,"QuestionnaireColorCue/break_to_features.html")
 
         if request.session['setnumber'] == 1:
             request.session['test_samples'] = list(Test_set1.objects.all().values_list('id', flat=True))
@@ -335,13 +335,13 @@ def test_block_display_stimuli_type2(request):
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set5.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
-        return render(request, 'Questionnaire/test_samples.html', {'samples': samples})
+        return render(request, 'QuestionnaireColorCue/test_samples.html', {'samples': samples})
 
 def common_features_test_phase_type2(request):
-    return render(request,"Questionnaire/common_features_test_phase.html")
+    return render(request,"QuestionnaireColorCue/common_features_test_phase.html")
 
 def common_features_test_phase_block_type2(request):
-    return render(request,"Questionnaire/common_features_test_phase_block.html",{"iteration":request.session['common_features_iteration']})
+    return render(request,"QuestionnaireColorCue/common_features_test_phase_block.html",{"iteration":request.session['common_features_iteration']})
 
 def common_features_test_block_display_stimuli_type2(request):
     if request.method=="POST":
@@ -370,7 +370,7 @@ def common_features_test_block_display_stimuli_type2(request):
         user_response.iteration = request.session['common_features_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.save()
-        return render(request,"Questionnaire/selected_option.html",{'correct_answer':request.session['correct_answer']})
+        return render(request,"QuestionnaireColorCue/selected_option.html",{'correct_answer':request.session['correct_answer']})
 
     if len(request.session['common_features_test_samples'])!=0:
         request.session['quid'] = request.session['common_features_test_samples'][0]
@@ -390,14 +390,14 @@ def common_features_test_block_display_stimuli_type2(request):
             samples = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
         elif request.session['setnumber'] == 5:
             samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
-        return render(request, 'Questionnaire/common_features_test_samples.html',{'samples':samples})
+        return render(request, 'QuestionnaireColorCue/common_features_test_samples.html',{'samples':samples})
 
     else:
         if request.session['common_features_test_phase_flag'] == True and request.session['common_features_iteration']<4:
             request.session['common_features_test_phase_flag'] = False
-            return render(request, "Questionnaire/break_common_features.html")
+            return render(request, "QuestionnaireColorCue/break_common_features.html")
         if request.session['common_features_test_phase_flag'] == True and request.session['common_features_iteration']>3:
-            return render(request,"Questionnaire/description.html")
+            return render(request,"QuestionnaireColorCue/description.html")
 
         if request.session['setnumber'] == 1:
             request.session['common_features_test_samples'] = list(Common_Features_Test_set1.objects.all().values_list('id', flat=True))
@@ -429,7 +429,7 @@ def common_features_test_block_display_stimuli_type2(request):
             request.session['quid'] = request.session['common_features_test_samples'][0]
             samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
             request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
-        return render(request, 'Questionnaire/common_features_test_samples.html', {'samples': samples})
+        return render(request, 'QuestionnaireColorCue/common_features_test_samples.html', {'samples': samples})
 
 
 def save_responses_description(request):
@@ -445,9 +445,9 @@ def save_responses_description(request):
                 user_response.save()
 
             else:
-                return render(request, 'Questionnaire/description.html', {'error': 'Please fill in the description'})
+                return render(request, 'QuestionnaireColorCue/description.html', {'error': 'Please fill in the description'})
 
         except ValueError as e:
-            return render(request, 'Questionnaire/description.html', {'error': 'Please fill in the description'})
+            return render(request, 'QuestionnaireColorCue/description.html', {'error': 'Please fill in the description'})
 
-    return render(request, 'Questionnaire/thankyou.html')
+    return render(request, 'QuestionnaireColorCue/thankyou.html')
