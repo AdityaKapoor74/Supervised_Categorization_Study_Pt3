@@ -39,7 +39,7 @@ def register_type1_done(request):
                 user.last_name = request.POST['lastname']
                 user.age = request.POST['age']
                 user.set_num = request.POST['set_num']
-                request.session['setnumber'] = request.POST['set_num']
+                request.session['setnumber'] = int(request.POST['set_num'])
 
                 option = request.POST.get("option",None)
                 if option in ["Male","Female","Other"]:
@@ -89,6 +89,8 @@ def register_type1_done(request):
         return render(request,'Questionnaire/register.html')
 
 def training_phase_start_type1(request):
+    print("SET NUMBER")
+    print(request.session['setnumber'])
     return render(request, 'Questionnaire/training_phase_start.html')
 
 def observe_and_learn_type1(request):
@@ -439,8 +441,7 @@ def save_responses_description(request):
             if len(desc) != 0:
                 user_response = UserResponsesForDescription()
                 user_response.description = desc
-                uid = request.session['user_id']
-                user_response.user = UserDetails.objects.get(pk=uid)
+                user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
                 user_response.set_number = request.session['setnumber']
                 user_response.save()
 
