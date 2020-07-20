@@ -149,6 +149,7 @@ class UserResponse_Test_set1(models.Model):
     quid = models.ForeignKey(Test_set1, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 
 class UserResponse_Test_set2(models.Model):
@@ -160,6 +161,7 @@ class UserResponse_Test_set2(models.Model):
     quid = models.ForeignKey(Test_set2, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 class UserResponse_Test_set3(models.Model):
 
@@ -170,6 +172,7 @@ class UserResponse_Test_set3(models.Model):
     quid = models.ForeignKey(Test_set3, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 class UserResponse_Test_set4(models.Model):
 
@@ -180,6 +183,7 @@ class UserResponse_Test_set4(models.Model):
     quid = models.ForeignKey(Test_set4, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 class UserResponse_Test_set5(models.Model):
 
@@ -190,6 +194,7 @@ class UserResponse_Test_set5(models.Model):
     quid = models.ForeignKey(Test_set5, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 
 class Common_Features_Test_set1(models.Model):
@@ -241,6 +246,7 @@ class UserResponse_Common_Features_Test_set1(models.Model):
     quid = models.ForeignKey(Common_Features_Test_set1, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 
 class UserResponse_Common_Features_Test_set2(models.Model):
@@ -262,6 +268,7 @@ class UserResponse_Common_Features_Test_set3(models.Model):
     quid = models.ForeignKey(Common_Features_Test_set3, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 class UserResponse_Common_Features_Test_set4(models.Model):
 
@@ -272,6 +279,7 @@ class UserResponse_Common_Features_Test_set4(models.Model):
     quid = models.ForeignKey(Common_Features_Test_set4, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 class UserResponse_Common_Features_Test_set5(models.Model):
 
@@ -282,6 +290,7 @@ class UserResponse_Common_Features_Test_set5(models.Model):
     quid = models.ForeignKey(Common_Features_Test_set5, on_delete=models.CASCADE)
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
     iteration = models.IntegerField(default=1)
+    time_taken = models.FloatField(default=None, blank=False)
 
 
 class UserResponsesForDescription(models.Model):
@@ -293,3 +302,34 @@ class UserResponsesForDescription(models.Model):
     set_number = models.CharField(max_length=10,blank=True,null=True,default=None)
 
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
+
+class TransferStimuliTable(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Transfer Stimuli Table"
+
+    user_id = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    set_number = models.IntegerField(default=None,blank=False)
+    block_number = models.IntegerField(default=None,blank=False)
+    sequence_number = models.IntegerField(default=None,blank=False)
+    file_name = models.CharField(max_length=150,blank=False,default=None)
+    user_option = models.CharField(max_length=10, default=None)
+    rule_based = models.IntegerField(default=None,blank=False)
+    time_taken = models.FloatField(default=None, blank=False)
+    timestamp = models.DateTimeField(auto_now_add= True,editable=False, null=False, blank=False)
+
+class CommonFeatureTable(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Feature Test Table"
+
+    user_id = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    set_number = models.IntegerField(default=None,blank=False)
+    block_number = models.IntegerField(default=None,blank=False)
+    sequence_number = models.IntegerField(default=None,blank=False)
+    file_name = models.CharField(max_length=150,blank=False,default=None)
+    user_option = models.CharField(max_length=10, default=None)
+    correct_option = models.CharField(max_length=10, default=None)
+    rule_based = models.IntegerField(default=None,blank=False)
+    time_taken = models.FloatField(default=None, blank=False)
+    timestamp = models.DateTimeField(auto_now_add= True)

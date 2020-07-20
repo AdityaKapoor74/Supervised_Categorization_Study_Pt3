@@ -64,7 +64,6 @@ def register_type1_done(request):
 
                 user.save()
                 request.session['user_id'] = user.id
-                request.session['user_id'] = user.id
                 request.session['iteration'] = 1
                 request.session['score'] = 0
 
@@ -280,9 +279,9 @@ def test_block_display_stimuli_type1(request):
             request.session['file_name'] = str(Test_set1.objects.get(pk=request.session['quid']).sample_img.path)
             transfer_stimuli.file_name = "colorNoCue/set0/"+request.session['file_name']
 
-            print("*"*100)
-            print(str(Test_set1.objects.get(pk=request.session['quid']).sample_img.path))
-            print("*" * 100)
+            # print("*"*100)
+            # print(str(Test_set1.objects.get(pk=request.session['quid']).sample_img.path))
+            # print("*" * 100)
         elif request.session['setnumber'] == 1:
             user_response = UserResponse_Test_set2()
             user_response.quid = Test_set2.objects.get(pk=request.session['quid'])
@@ -532,6 +531,8 @@ def common_features_test_block_display_stimuli_type1(request):
             request.session['quid'] = request.session['common_features_test_samples'][0]
             samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
             request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
+
+
         return render(request, 'Questionnaire/common_features_test_samples.html', {'samples': samples})
 
 
