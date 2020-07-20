@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 import random
 
 def register(request,num):
-    return render(request,'Questionnaire/register.html',{'set_num':num})
+    request.session['setnumber'] = num
+    return render(request,'Questionnaire/register.html')
 
 def contact(request):
     return render(request,'Questionnaire/contact.html')
@@ -38,8 +39,7 @@ def register_type1_done(request):
                 user.first_name = request.POST['firstname']
                 user.last_name = request.POST['lastname']
                 user.age = request.POST['age']
-                user.set_num = request.POST['set_num']
-                request.session['setnumber'] = int(request.POST['set_num'])
+                user.set_num = request.session['setnumber']
 
                 option = request.POST.get("option",None)
                 if option in ["Male","Female","Other"]:
