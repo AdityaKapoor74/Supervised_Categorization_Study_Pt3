@@ -304,13 +304,35 @@ class UserResponsesForDescription(models.Model):
     user = models.ForeignKey(UserDetails, on_delete=models.CASCADE, default=None, blank=True)
 
 
-# class TransferStimuliTable(models.Model):
-#
-#     class Meta:
-#         verbose_name_plural = "Transfer Stimuli"
-#
-#     user_id = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
-#     set_number = models.IntegerField(defualt=None,blank=False)
-#     block_number = models.IntegerField(default=None,blank=False)
+class TransferStimuliTable(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Transfer Stimuli Table"
+
+    user_id = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    set_number = models.IntegerField(default=None,blank=False)
+    block_number = models.IntegerField(default=None,blank=False)
+    sequence_number = models.IntegerField(default=None,blank=False)
+    file_name = models.CharField(max_length=150,blank=False,default=None)
+    user_option = models.CharField(max_length=10, default=None)
+    rule_based = models.IntegerField(default=None,blank=False)
+    time_taken = models.FloatField(default=None, blank=False)
+    timestamp = models.DateTimeField(auto_now_add= True,editable=False, null=False, blank=False)
+
+class CommonFeatureTable(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Common Feature Test Table"
+
+    user_id = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    set_number = models.IntegerField(default=None,blank=False)
+    block_number = models.IntegerField(default=None,blank=False)
+    sequence_number = models.IntegerField(default=None,blank=False)
+    file_name = models.CharField(max_length=150,blank=False,default=None)
+    user_option = models.CharField(max_length=10, default=None)
+    correct_option = models.CharField(max_length=10, default=None)
+    rule_based = models.IntegerField(default=None,blank=False)
+    time_taken = models.FloatField(default=None, blank=False)
+    timestamp = models.DateTimeField(auto_now_add= True)
 
 

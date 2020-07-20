@@ -85,6 +85,7 @@ def register_type1_done(request):
                 request.session['common_features_test_phase_flag'] = False
                 request.session['start_time'] = -1
                 request.session['elapsed_time'] = -1
+                request.session['file_name'] = None
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
@@ -261,40 +262,81 @@ def test_block_type1(request):
 
 def test_block_display_stimuli_type1(request):
     if request.method=="POST":
-        request.session['elapsed_time'] = request.session['start_time'] - time.time()
+        request.session['elapsed_time'] = time.time() - request.session['start_time']
         option = request.POST.get("option",None)
+        transfer_stimuli = TransferStimuliTable()
+        transfer_stimuli.user_id = UserDetails.objects.get(pk=request.session['user_id'])
+        transfer_stimuli.set_number = request.session['setnumber']
+        transfer_stimuli.block_number = request.session['test_iteration']
+        transfer_stimuli.sequence_number = 10 - len(request.session['test_samples'])
+
+        if len(request.session['test_samples']) == 0:
+            request.session['test_iteration']+=1
+            request.session['test_phase_flag'] = True
+
         if request.session['setnumber'] == 0:
             user_response = UserResponse_Test_set1()
             user_response.quid = Test_set1.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Test_set1.objects.get(pk=request.session['quid']).sample_img.path)
+            transfer_stimuli.file_name = "colorNoCue/set0/"+request.session['file_name']
+
+            print("*"*100)
+            print(str(Test_set1.objects.get(pk=request.session['quid']).sample_img.path))
+            print("*" * 100)
         elif request.session['setnumber'] == 1:
             user_response = UserResponse_Test_set2()
             user_response.quid = Test_set2.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Test_set2.objects.get(pk=request.session['quid']).sample_img.path)
+            transfer_stimuli.file_name = "colorNoCue/set1/" + request.session['file_name']
+
         elif request.session['setnumber'] == 2:
             user_response = UserResponse_Test_set3()
             user_response.quid = Test_set3.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Test_set3.objects.get(pk=request.session['quid']).sample_img.path)
+            transfer_stimuli.file_name = "colorNoCue/set2/" + request.session['file_name']
+
         elif request.session['setnumber'] == 3:
             user_response = UserResponse_Test_set4()
             user_response.quid = Test_set4.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Test_set4.objects.get(pk=request.session['quid']).sample_img.path)
+            transfer_stimuli.file_name = "colorNoCue/set3/" + request.session['file_name']
+
         elif request.session['setnumber'] == 4:
             user_response = UserResponse_Test_set5()
             user_response.quid = Test_set5.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
+            transfer_stimuli.file_name = "colorNoCue/set4/" + request.session['file_name']
+
         if option=="A":
             user_response.user_option = "A"
+            transfer_stimuli.user_option = "A"
+            if (request.session['file_name'].find("Transfer_00")!=-1 or request.session['file_name'].find("Transfer_01")!=-1 or request.session['file_name'].find("Transfer_02")!=-1 or request.session['file_name'].find("Transfer_03")!=-1 or request.session['file_name'].find("Transfer_04")!=-1):
+                transfer_stimuli.rule_based = 0
+            else:
+                transfer_stimuli.rule_based = 1
         else:
             user_response.user_option = "B"
+            transfer_stimuli.user_option = "B"
+            if (request.session['file_name'].find("Transfer_00")!=-1 or request.session['file_name'].find("Transfer_01")!=-1 or request.session['file_name'].find("Transfer_02")!=-1 or request.session['file_name'].find("Transfer_03")!=-1 or request.session['file_name'].find("Transfer_04")!=-1):
+                transfer_stimuli.rule_based = 1
+            else:
+                transfer_stimuli.rule_based = 0
+
         user_response.iteration = request.session['test_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.time_taken = request.session['elapsed_time']
+        transfer_stimuli.time_taken = request.session['elapsed_time']
         user_response.save()
+        transfer_stimuli.save()
         return render(request,"Questionnaire/fixature_screen_test.html")
 
     if len(request.session['test_samples'])!=0:
         request.session['quid'] = request.session['test_samples'][0]
         request.session['test_samples'] = request.session['test_samples'][1:]
 
-        if len(request.session['test_samples']) == 0:
-            request.session['test_iteration']+=1
-            request.session['test_phase_flag'] = True
+        # if len(request.session['test_samples']) == 0:
+        #     request.session['test_iteration']+=1
+        #     request.session['test_phase_flag'] = True
 
         if request.session['setnumber'] == 0:
             samples = Test_set1.objects.get(pk=request.session['quid'])
@@ -363,40 +405,83 @@ def common_features_test_phase_block_type1(request):
 def common_features_test_block_display_stimuli_type1(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
+        common_feature = CommonFeatureTable()
+        common_feature.user_id = UserDetails.objects.get(pk=request.session['user_id'])
+        common_feature.set_number = request.session['setnumber']
+        common_feature.block_number = request.session['common_features_iteration']
+        common_feature.sequence_number = 10 - len(request.session['common_features_test_samples'])
+
+
+        if len(request.session['common_features_test_samples']) == 0:
+            request.session['common_features_iteration']+=1
+            request.session['common_features_test_phase_flag'] = True
+
         if request.session['setnumber'] == 0:
             user_response = UserResponse_Common_Features_Test_set1()
             user_response.quid = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Common_Features_Test_set1.objects.get(pk=request.session['quid']).sample_img.path)
+            common_feature.file_name = "colorNoCue/set0/" + request.session['file_name']
         elif request.session['setnumber'] == 1:
             user_response = UserResponse_Common_Features_Test_set2()
             user_response.quid = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Common_Features_Test_set2.objects.get(pk=request.session['quid']).sample_img.path)
+            common_feature.file_name = "colorNoCue/set1/" + request.session['file_name']
         elif request.session['setnumber'] == 2:
             user_response = UserResponse_Common_Features_Test_set3()
             user_response.quid = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Common_Features_Test_set3.objects.get(pk=request.session['quid']).sample_img.path)
+            common_feature.file_name = "colorNoCue/set2/" + request.session['file_name']
         elif request.session['setnumber'] == 3:
             user_response = UserResponse_Common_Features_Test_set4()
             user_response.quid = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Common_Features_Test_set4.objects.get(pk=request.session['quid']).sample_img.path)
+            common_feature.file_name = "colorNoCue/set3/" + request.session['file_name']
         elif request.session['setnumber'] == 4:
             user_response = UserResponse_Common_Features_Test_set5()
             user_response.quid = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
+            request.session['file_name'] = str(Common_Features_Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
+            common_feature.file_name = "colorNoCue/set4/" + request.session['file_name']
+
+        if (request.session['file_name'].find('A5')!=-1 or request.session['file_name'].find('A1')!=-1 or request.session['file_name'].find('A2')!=-1 or request.session['file_name'].find('A3')!=-1 or request.session['file_name'].find('A4')!=-1):
+            common_feature.correct_option = "A"
+        else:
+            common_feature.correct_option = "B"
+
+        if request.session['setnumber'] == 0 and (request.session['file_name'].find("A1")!=-1 or request.session['file_name'].find("B1")!=-1):
+            common_feature.rule_based = 1
+        elif request.session['setnumber'] == 1 and (request.session['file_name'].find("A2")!=-1 or request.session['file_name'].find("B2")!=-1):
+            common_feature.rule_based = 1
+        elif request.session['setnumber'] == 2 and (request.session['file_name'].find("A3")!=-1 or request.session['file_name'].find("B3")!=-1):
+            common_feature.rule_based = 1
+        elif request.session['setnumber'] == 3 and (request.session['file_name'].find("A4")!=-1 or request.session['file_name'].find("B4")!=-1):
+            common_feature.rule_based = 1
+        elif request.session['setnumber'] == 4 and (request.session['file_name'].find("A5")!=-1 or request.session['file_name'].find("B5")!=-1):
+            common_feature.rule_based = 1
+        else:
+            common_feature.rule_based = 0
+
         if option=="A":
             user_response.user_option = "A"
             request.session['correct_answer'] = "A"
+            common_feature.user_option = "A"
         else:
             user_response.user_option = "B"
             request.session['correct_answer'] = "B"
+            common_feature.user_option = "B"
         user_response.iteration = request.session['common_features_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.time_taken = request.session['elapsed_time']
         user_response.save()
+        common_features.save()
         return render(request,"Questionnaire/selected_option.html",{'correct_answer':request.session['correct_answer']})
 
     if len(request.session['common_features_test_samples'])!=0:
         request.session['quid'] = request.session['common_features_test_samples'][0]
         request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
 
-        if len(request.session['common_features_test_samples']) == 0:
-            request.session['common_features_iteration']+=1
-            request.session['common_features_test_phase_flag'] = True
+        # if len(request.session['common_features_test_samples']) == 0:
+        #     request.session['common_features_iteration']+=1
+        #     request.session['common_features_test_phase_flag'] = True
 
         if request.session['setnumber'] == 0:
             samples = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
