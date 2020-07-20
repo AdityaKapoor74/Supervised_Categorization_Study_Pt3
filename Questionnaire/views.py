@@ -472,7 +472,7 @@ def common_features_test_block_display_stimuli_type1(request):
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.time_taken = request.session['elapsed_time']
         user_response.save()
-        common_features.save()
+        common_feature.save()
         return render(request,"Questionnaire/selected_option.html",{'correct_answer':request.session['correct_answer']})
 
     if len(request.session['common_features_test_samples'])!=0:
