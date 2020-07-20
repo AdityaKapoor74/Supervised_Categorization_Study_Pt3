@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name=”viewport” content=”width=device-width, initial-scale=1″>
-    <title>Set Number</title>
+    <title>Page not found</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -18,26 +19,74 @@
             padding-left: 20px;
         }
 
-        body{color:#444;font:100%/1.4 sans-serif;}
+        /* If you want the content centered horizontally and vertically */
+        .centered {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            bottom: 10px;
+            margin-left : -100px
+        }
+
+
+        #wrapper {
+          display: flex;
+        }
+
+        #left {
+          flex: 0 0 70%;
+        }
+
+        #right {
+          flex: 1;
+        }
+
+        .centered img {
+          width: 100px;
+          {#border-radius: 50%;#}
+        }
 
 
         .button {
           background-color: #4CAF50; /* Green */
           border: none;
           color: white;
-          padding: 15px 32px;
+          padding: 16px 20px;
           text-align: center;
           text-decoration: none;
           display: inline-block;
           font-size: 16px;
           margin: 4px 2px;
+          -webkit-transition-duration: 0.4s; /* Safari */
+          transition-duration: 0.4s;
           cursor: pointer;
         }
 
-        .button2 {background-color: #008CBA;} /* Blue */
-        .button3 {background-color: #f44336;} /* Red */
-        .button4 {background-color: #e7e7e7; color: black;} /* Gray */
-        .button5 {background-color: #555555;} /* Black */
+        .button1 {
+          background-color: white;
+          color: black;
+          border: 2px solid #4CAF50;
+        }
+
+        .button1:hover {
+          background-color: #4CAF50;
+          color: white;
+        }
+
+        .container {
+          height: 200px;
+          position: relative;
+        }
+
+        .center {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+        }
+
      </style>
 
 </head>
@@ -57,23 +106,9 @@
 <br>
 <br>
 <br>
-<body>
+<br>
 
-<ul style="list-style-type:disc;">
-    {% if error %}
-    <h3>{{ error }}</h3>
-    <br>
-    <br>
-    {% endif %}
-    <h1>Choose the set number alloted:</h1>
-    <form method="POST" action="{% url 'set_number_register_type1' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <button type="submit" name="set1" value="set1" class="button">Set 1</button>
-        <button type="submit" name="set2" value="set2" class="button button2">Set 2</button>
-        <button type="submit" name="set3" value="set3" class="button button3">Set 3</button>
-        <button type="submit" name="set4" value="set4" class="button button4">Set 4</button>
-        <button type="submit" name="set5" value="set5" class="button button5">Set 5</button>
-    </form>
-</ul>
+<body>
+    <h2 align="center">Please go to the requested URL.</h2>
 </body>
 </html>

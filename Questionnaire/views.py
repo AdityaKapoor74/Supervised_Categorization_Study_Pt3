@@ -8,6 +8,8 @@ from django.core.exceptions import ValidationError
 import random
 
 def register(request,num):
+    if num>4:
+        return render(request,'Questionnaire/set_404.html')
     request.session['setnumber'] = num
     return render(request,'Questionnaire/register.html')
 
@@ -107,15 +109,15 @@ def observe_and_learn_display_stimuli_type1(request):
         if len(request.session['obs_learn_samples']) == 0:
             request.session['flag_training'] = True
             request.session['flag_test'] = False
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             samples = Observe_And_Learn_Samples_set1.objects.get(pk=id)
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             samples = Observe_And_Learn_Samples_set2.objects.get(pk=id)
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             samples = Observe_And_Learn_Samples_set3.objects.get(pk=id)
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             samples = Observe_And_Learn_Samples_set4.objects.get(pk=id)
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             samples = Observe_And_Learn_Samples_set5.objects.get(pk=id)
 
         return render(request, 'Questionnaire/observe_and_learn_samples.html',{'samples':samples})
@@ -123,31 +125,31 @@ def observe_and_learn_display_stimuli_type1(request):
     else:
         if request.session['flag_training'] == True:
             return render(request,'Questionnaire/classify_and_learn.html',{'iteration': request.session['iteration']})
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
             id = request.session['obs_learn_samples'][0]
             samples = Observe_And_Learn_Samples_set1.objects.get(pk=id)
             request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set2.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
             id = request.session['obs_learn_samples'][0]
             samples = Observe_And_Learn_Samples_set2.objects.get(pk=id)
             request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set3.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
             id = request.session['obs_learn_samples'][0]
             samples = Observe_And_Learn_Samples_set3.objects.get(pk=id)
             request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set4.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
             id = request.session['obs_learn_samples'][0]
             samples = Observe_And_Learn_Samples_set4.objects.get(pk=id)
             request.session['obs_learn_samples'] = request.session['obs_learn_samples'][1:]
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             request.session['obs_learn_samples'] = list(Observe_And_Learn_Samples_set5.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['obs_learn_samples'])
             id = request.session['obs_learn_samples'][0]
@@ -176,15 +178,15 @@ def classify_and_learn_display_stimuli_type1(request):
         request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         if len(request.session['classify_learn_samples']) == 0:
             request.session['flag_test'] = True
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             samples = Classify_And_Learn_Samples_set1.objects.get(pk=id)
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             samples = Classify_And_Learn_Samples_set2.objects.get(pk=id)
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             samples = Classify_And_Learn_Samples_set3.objects.get(pk=id)
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             samples = Classify_And_Learn_Samples_set4.objects.get(pk=id)
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
         request.session['correct_answer'] = samples.sample_label
         return render(request, 'Questionnaire/classify_and_learn_samples.html',{'samples':samples})
@@ -193,31 +195,31 @@ def classify_and_learn_display_stimuli_type1(request):
         if request.session['flag_test'] == True:
             request.session['performance']+=str(request.session['score']*10)+"% "
             return render(request,'Questionnaire/classify_result.html',{"performance":request.session['score']*10,"correct":request.session['score'],"wrong":10-request.session['score']})
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
             samples = Classify_And_Learn_Samples_set1.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set2.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
             samples = Classify_And_Learn_Samples_set2.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set3.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
             samples = Classify_And_Learn_Samples_set3.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set4.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
             samples = Classify_And_Learn_Samples_set4.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set5.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
@@ -256,19 +258,19 @@ def test_block_type1(request):
 def test_block_display_stimuli_type1(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             user_response = UserResponse_Test_set1()
             user_response.quid = Test_set1.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             user_response = UserResponse_Test_set2()
             user_response.quid = Test_set2.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             user_response = UserResponse_Test_set3()
             user_response.quid = Test_set3.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             user_response = UserResponse_Test_set4()
             user_response.quid = Test_set4.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             user_response = UserResponse_Test_set5()
             user_response.quid = Test_set5.objects.get(pk=request.session['quid'])
         if option=="A":
@@ -288,15 +290,15 @@ def test_block_display_stimuli_type1(request):
             request.session['test_iteration']+=1
             request.session['test_phase_flag'] = True
 
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             samples = Test_set1.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             samples = Test_set2.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             samples = Test_set3.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             samples = Test_set4.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             samples = Test_set5.objects.get(pk=request.session['quid'])
         return render(request, 'Questionnaire/test_samples.html',{'samples':samples})
 
@@ -307,31 +309,31 @@ def test_block_display_stimuli_type1(request):
         if request.session['test_phase_flag'] == True and request.session['test_iteration']>3:
             return render(request,"Questionnaire/break_to_features.html")
 
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             request.session['test_samples'] = list(Test_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['test_samples'])
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set1.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             request.session['test_samples'] = list(Test_set2.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['test_samples'])
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set2.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             request.session['test_samples'] = list(Test_set3.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['test_samples'])
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set3.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             request.session['test_samples'] = list(Test_set4.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['test_samples'])
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set4.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             request.session['test_samples'] = list(Test_set5.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['test_samples'])
             request.session['quid'] = request.session['test_samples'][0]
@@ -348,19 +350,19 @@ def common_features_test_phase_block_type1(request):
 def common_features_test_block_display_stimuli_type1(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             user_response = UserResponse_Common_Features_Test_set1()
             user_response.quid = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             user_response = UserResponse_Common_Features_Test_set2()
             user_response.quid = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             user_response = UserResponse_Common_Features_Test_set3()
             user_response.quid = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             user_response = UserResponse_Common_Features_Test_set4()
             user_response.quid = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             user_response = UserResponse_Common_Features_Test_set5()
             user_response.quid = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
         if option=="A":
@@ -382,15 +384,15 @@ def common_features_test_block_display_stimuli_type1(request):
             request.session['common_features_iteration']+=1
             request.session['common_features_test_phase_flag'] = True
 
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             samples = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             samples = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             samples = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             samples = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
         return render(request, 'Questionnaire/common_features_test_samples.html',{'samples':samples})
 
@@ -401,31 +403,31 @@ def common_features_test_block_display_stimuli_type1(request):
         if request.session['common_features_test_phase_flag'] == True and request.session['common_features_iteration']>3:
             return render(request,"Questionnaire/description.html")
 
-        if request.session['setnumber'] == 1:
+        if request.session['setnumber'] == 0:
             request.session['common_features_test_samples'] = list(Common_Features_Test_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['common_features_test_samples'])
             request.session['quid'] = request.session['common_features_test_samples'][0]
             samples = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
             request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
-        elif request.session['setnumber'] == 2:
+        elif request.session['setnumber'] == 1:
             request.session['common_features_test_samples'] = list(Common_Features_Test_set2.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['common_features_test_samples'])
             request.session['quid'] = request.session['common_features_test_samples'][0]
             samples = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
             request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
-        elif request.session['setnumber'] == 3:
+        elif request.session['setnumber'] == 2:
             request.session['common_features_test_samples'] = list(Common_Features_Test_set3.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['common_features_test_samples'])
             request.session['quid'] = request.session['common_features_test_samples'][0]
             samples = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
             request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
-        elif request.session['setnumber'] == 4:
+        elif request.session['setnumber'] == 3:
             request.session['common_features_test_samples'] = list(Common_Features_Test_set4.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['common_features_test_samples'])
             request.session['quid'] = request.session['common_features_test_samples'][0]
             samples = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
             request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
-        elif request.session['setnumber'] == 5:
+        elif request.session['setnumber'] == 4:
             request.session['common_features_test_samples'] = list(Common_Features_Test_set5.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['test_samples'])
             request.session['quid'] = request.session['common_features_test_samples'][0]
