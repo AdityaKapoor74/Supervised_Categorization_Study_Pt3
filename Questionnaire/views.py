@@ -6,6 +6,7 @@ import validate_email
 from validate_email import *
 from django.core.exceptions import ValidationError
 import random
+import time
 
 def register(request,num):
     if num>4:
@@ -63,6 +64,7 @@ def register_type1_done(request):
 
                 user.save()
                 request.session['user_id'] = user.id
+                request.session['user_id'] = user.id
                 request.session['iteration'] = 1
                 request.session['score'] = 0
 
@@ -81,6 +83,8 @@ def register_type1_done(request):
                 request.session['test_phase_flag'] = False
                 request.session['common_features_iteration'] = 1
                 request.session['common_features_test_phase_flag'] = False
+                request.session['start_time'] = -1
+                request.session['elapsed_time'] = -1
             except ValueError as e:
                 return render(request,'Questionnaire/register.html',{'error':'Incorrect values.Please try again.'})
 
@@ -257,6 +261,7 @@ def test_block_type1(request):
 
 def test_block_display_stimuli_type1(request):
     if request.method=="POST":
+        request.session['elapsed_time'] = request.session['start_time'] - time.time()
         option = request.POST.get("option",None)
         if request.session['setnumber'] == 0:
             user_response = UserResponse_Test_set1()
@@ -279,6 +284,7 @@ def test_block_display_stimuli_type1(request):
             user_response.user_option = "B"
         user_response.iteration = request.session['test_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
+        user_response.time_taken = request.session['elapsed_time']
         user_response.save()
         return render(request,"Questionnaire/fixature_screen_test.html")
 
@@ -300,6 +306,9 @@ def test_block_display_stimuli_type1(request):
             samples = Test_set4.objects.get(pk=request.session['quid'])
         elif request.session['setnumber'] == 4:
             samples = Test_set5.objects.get(pk=request.session['quid'])
+
+        request.session['start_time'] = time.time()
+
         return render(request, 'Questionnaire/test_samples.html',{'samples':samples})
 
     else:
@@ -339,6 +348,10 @@ def test_block_display_stimuli_type1(request):
             request.session['quid'] = request.session['test_samples'][0]
             samples = Test_set5.objects.get(pk=request.session['quid'])
             request.session['test_samples'] = request.session['test_samples'][1:]
+
+        request.session['start_time'] = time.time()
+
+
         return render(request, 'Questionnaire/test_samples.html', {'samples': samples})
 
 def common_features_test_phase_type1(request):
@@ -373,6 +386,7 @@ def common_features_test_block_display_stimuli_type1(request):
             request.session['correct_answer'] = "B"
         user_response.iteration = request.session['common_features_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
+        user_response.time_taken = request.session['elapsed_time']
         user_response.save()
         return render(request,"Questionnaire/selected_option.html",{'correct_answer':request.session['correct_answer']})
 
