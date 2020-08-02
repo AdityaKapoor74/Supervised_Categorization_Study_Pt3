@@ -7,6 +7,7 @@ from validate_email import *
 from django.core.exceptions import ValidationError
 import random
 import time
+import datetime
 
 def register(request,num):
     if num>4:
@@ -161,7 +162,7 @@ def observe_and_learn_display_stimuli_type3(request):
 
         return render(request, 'QuestionnaireColorCueNew/observe_and_learn_samples.html', {'samples': samples})
 
-def fixation_screen_type3(request):
+def fixation_screen_observe_type3(request):
     return render(request,'QuestionnaireColorCueNew/fixation_screen.html')
 
 def classify_and_learn_instructions_type3(request):
@@ -169,12 +170,53 @@ def classify_and_learn_instructions_type3(request):
 
 def classify_and_learn_display_stimuli_type3(request):
     if request.method=="POST":
+        request.session['elapsed_time'] = time.time() - request.session['start_time']
         option = request.POST.get("option",None)
+        classify_stimuli = ClassifyStimuiTable()
+        classify_stimuli.user_id = UserDetails.objects.get(pk=request.session['user_id'])
+        classify_stimuli.set_number = request.session['setnumber']
+        classify_stimuli.block_number = request.session['iteration']
+        classify_stimuli.sequence_number = 10 - len(request.session['classify_learn_samples'])
+        classify_stimuli.timestamp = datetime.datetime.now()
+        classify_stimuli.user_option = option
+
+        if request.session['setnumber'] == 0:
+            request.session['file_name'] = str(Classify_And_Learn_Samples_set1.objects.get(pk=request.session['quid']).sample_img.path)
+            classify_stimuli.file_name = "colorCue/set0/"+request.session['file_name']
+
+        elif request.session['setnumber'] == 1:
+            request.session['file_name'] = str(Test_set2.objects.get(pk=request.session['quid']).sample_img.path)
+            classify_stimuli.file_name = "colorCue/set1/" + request.session['file_name']
+
+        elif request.session['setnumber'] == 2:
+            request.session['file_name'] = str(Test_set3.objects.get(pk=request.session['quid']).sample_img.path)
+            classify_stimuli.file_name = "colorCue/set2/" + request.session['file_name']
+
+        elif request.session['setnumber'] == 3:
+            request.session['file_name'] = str(Test_set4.objects.get(pk=request.session['quid']).sample_img.path)
+            classify_stimuli.file_name = "colorCue/set3/" + request.session['file_name']
+
+        elif request.session['setnumber'] == 4:
+            request.session['file_name'] = str(Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
+            classify_stimuli.file_name = "colorCue/set4/" + request.session['file_name']
+
+        if option=="A":
+            classify_stimuli.user_option = "A"
+        else:
+            classify_stimuli.user_option = "B"
+
+        classify_stimuli.time_taken = request.session['elapsed_time']
+        classify_stimuli.save()
+
         if option==request.session['correct_answer']:
             request.session['score'] += 1
-            return render(request,"QuestionnaireColorCueNew/fixation_screen_classify.html")
+            # return render(request,"QuestionnaireColorCueNew/fixation_screen_classify.html")
+            return render(request, "Questionnaire/correct_ans_classify.html",
+                          {'time_taken': round(request.session['elapsed_time'], 2)})
         else:
             return render(request,"QuestionnaireColorCueNew/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer']})
+
+
 
     if len(request.session['classify_learn_samples'])!=0:
         id = request.session['classify_learn_samples'][0]
@@ -192,6 +234,7 @@ def classify_and_learn_display_stimuli_type3(request):
         elif request.session['setnumber'] == 4:
             samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
         request.session['correct_answer'] = samples.sample_label
+        request.session['start_time'] = time.time()
         return render(request, 'QuestionnaireColorCueNew/classify_and_learn_samples.html',{'samples':samples})
 
     else:
@@ -202,33 +245,39 @@ def classify_and_learn_display_stimuli_type3(request):
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set1.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
+            request.session['quid'] = id
             samples = Classify_And_Learn_Samples_set1.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         elif request.session['setnumber'] == 1:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set2.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
+            request.session['quid'] = id
             samples = Classify_And_Learn_Samples_set2.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         elif request.session['setnumber'] == 2:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set3.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
+            request.session['quid'] = id
             samples = Classify_And_Learn_Samples_set3.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         elif request.session['setnumber'] == 3:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set4.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
+            request.session['quid'] = id
             samples = Classify_And_Learn_Samples_set4.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         elif request.session['setnumber'] == 4:
             request.session['classify_learn_samples'] = list(Classify_And_Learn_Samples_set5.objects.all().values_list('id', flat=True))
             random.shuffle(request.session['classify_learn_samples'])
             id = request.session['classify_learn_samples'][0]
+            request.session['quid'] = id
             samples = Classify_And_Learn_Samples_set5.objects.get(pk=id)
             request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         request.session['correct_answer'] = samples.sample_label
+        request.session['start_time'] = time.time()
         return render(request, 'QuestionnaireColorCueNew/classify_and_learn_samples.html', {'samples': samples})
 
 def fixation_screen_classify_type3(request):
@@ -267,6 +316,7 @@ def test_block_display_stimuli_type3(request):
         transfer_stimuli.set_number = request.session['setnumber']
         transfer_stimuli.block_number = request.session['test_iteration']
         transfer_stimuli.sequence_number = 10 - len(request.session['test_samples'])
+        transfer_stimuli.timestamp = datetime.datetime.now()
 
         if len(request.session['test_samples']) == 0:
             request.session['test_iteration']+=1
@@ -276,27 +326,27 @@ def test_block_display_stimuli_type3(request):
             user_response = UserResponse_Test_set1()
             user_response.quid = Test_set1.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(Test_set1.objects.get(pk=request.session['quid']).sample_img.path)
-            transfer_stimuli.file_name = "colorNoCue/set0/"+request.session['file_name']
+            transfer_stimuli.file_name = "colorCue/set0/"+request.session['file_name']
         elif request.session['setnumber'] == 1:
             user_response = UserResponse_Test_set2()
             user_response.quid = Test_set2.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(Test_set2.objects.get(pk=request.session['quid']).sample_img.path)
-            transfer_stimuli.file_name = "colorNoCue/set1/" + request.session['file_name']
+            transfer_stimuli.file_name = "colorCue/set1/" + request.session['file_name']
         elif request.session['setnumber'] == 2:
             user_response = UserResponse_Test_set3()
             user_response.quid = Test_set3.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(Test_set3.objects.get(pk=request.session['quid']).sample_img.path)
-            transfer_stimuli.file_name = "colorNoCue/set2/" + request.session['file_name']
+            transfer_stimuli.file_name = "colorCue/set2/" + request.session['file_name']
         elif request.session['setnumber'] == 3:
             user_response = UserResponse_Test_set4()
             user_response.quid = Test_set4.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(Test_set4.objects.get(pk=request.session['quid']).sample_img.path)
-            transfer_stimuli.file_name = "colorNoCue/set3/" + request.session['file_name']
+            transfer_stimuli.file_name = "colorCue/set3/" + request.session['file_name']
         elif request.session['setnumber'] == 4:
             user_response = UserResponse_Test_set5()
             user_response.quid = Test_set5.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
-            transfer_stimuli.file_name = "colorNoCue/set4/" + request.session['file_name']
+            transfer_stimuli.file_name = "colorCue/set4/" + request.session['file_name']
         if option=="A":
             user_response.user_option = "A"
             transfer_stimuli.user_option = "A"
@@ -320,15 +370,12 @@ def test_block_display_stimuli_type3(request):
         user_response.save()
         transfer_stimuli.save()
 
-        return render(request,"QuestionnaireColorCueNew/fixature_screen_test.html")
+        return render(request,"Questionnaire/selected_category_test.html",{"option":option, "timetaken":round(request.session['elapsed_time'],2)})
 
     if len(request.session['test_samples'])!=0:
         request.session['quid'] = request.session['test_samples'][0]
         request.session['test_samples'] = request.session['test_samples'][1:]
 
-        # if len(request.session['test_samples']) == 0:
-        #     request.session['test_iteration']+=1
-        #     request.session['test_phase_flag'] = True
 
         if request.session['setnumber'] == 0:
             samples = Test_set1.objects.get(pk=request.session['quid'])
@@ -340,6 +387,8 @@ def test_block_display_stimuli_type3(request):
             samples = Test_set4.objects.get(pk=request.session['quid'])
         elif request.session['setnumber'] == 4:
             samples = Test_set5.objects.get(pk=request.session['quid'])
+
+        request.session['start_time'] = time.time()
         return render(request, 'QuestionnaireColorCueNew/test_samples.html',{'samples':samples})
 
     else:
@@ -384,6 +433,10 @@ def test_block_display_stimuli_type3(request):
 
         return render(request, 'QuestionnaireColorCueNew/test_samples.html', {'samples': samples})
 
+
+def fixature_screen_test_type1(request):
+    return render(request,"Questionnaire/fixature_screen_test.html")
+
 def common_features_test_phase_type3(request):
     return render(request,"QuestionnaireColorCueNew/common_features_test_phase.html")
 
@@ -393,11 +446,14 @@ def common_features_test_phase_block_type3(request):
 def common_features_test_block_display_stimuli_type3(request):
     if request.method=="POST":
         option = request.POST.get("option",None)
+        request.session['elapsed_time'] = time.time() - request.session['start_time']
         common_feature = CommonFeatureTable()
         common_feature.user_id = UserDetails.objects.get(pk=request.session['user_id'])
         common_feature.set_number = request.session['setnumber']
         common_feature.block_number = request.session['common_features_iteration']
         common_feature.sequence_number = 10 - len(request.session['common_features_test_samples'])
+        common_feature.time_taken = request.session['elapsed_time']
+        common_feature.timestamp = datetime.datetime.now()
 
         if len(request.session['common_features_test_samples']) == 0:
             request.session['common_features_iteration']+=1
@@ -409,31 +465,31 @@ def common_features_test_block_display_stimuli_type3(request):
             user_response.quid = Common_Features_Test_set1.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(
                 Common_Features_Test_set1.objects.get(pk=request.session['quid']).sample_img.path)
-            common_feature.file_name = "colorNoCue/set0/" + request.session['file_name']
+            common_feature.file_name = "colorCue/set0/" + request.session['file_name']
         elif request.session['setnumber'] == 1:
             user_response = UserResponse_Common_Features_Test_set2()
             user_response.quid = Common_Features_Test_set2.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(
                 Common_Features_Test_set2.objects.get(pk=request.session['quid']).sample_img.path)
-            common_feature.file_name = "colorNoCue/set1/" + request.session['file_name']
+            common_feature.file_name = "colorCue/set1/" + request.session['file_name']
         elif request.session['setnumber'] == 2:
             user_response = UserResponse_Common_Features_Test_set3()
             user_response.quid = Common_Features_Test_set3.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(
                 Common_Features_Test_set3.objects.get(pk=request.session['quid']).sample_img.path)
-            common_feature.file_name = "colorNoCue/set2/" + request.session['file_name']
+            common_feature.file_name = "colorCue/set2/" + request.session['file_name']
         elif request.session['setnumber'] == 3:
             user_response = UserResponse_Common_Features_Test_set4()
             user_response.quid = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(
                 Common_Features_Test_set4.objects.get(pk=request.session['quid']).sample_img.path)
-            common_feature.file_name = "colorNoCue/set3/" + request.session['file_name']
+            common_feature.file_name = "colorCue/set3/" + request.session['file_name']
         elif request.session['setnumber'] == 4:
             user_response = UserResponse_Common_Features_Test_set5()
             user_response.quid = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
             request.session['file_name'] = str(
                 Common_Features_Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
-            common_feature.file_name = "colorNoCue/set4/" + request.session['file_name']
+            common_feature.file_name = "colorCue/set4/" + request.session['file_name']
 
         if (request.session['file_name'].find('A5')!=-1 or request.session['file_name'].find('A1')!=-1 or request.session['file_name'].find('A2')!=-1 or request.session['file_name'].find('A3')!=-1 or request.session['file_name'].find('A4')!=-1):
             common_feature.correct_option = "A"
@@ -467,15 +523,12 @@ def common_features_test_block_display_stimuli_type3(request):
         common_feature.time_taken = request.session['elapsed_time']
         user_response.save()
         common_feature.save()
-        return render(request,"QuestionnaireColorCueNew/selected_option.html",{'correct_answer':request.session['correct_answer']})
+        return render(request,"QuestionnaireColorCueNew/selected_option.html",{'correct_answer':request.session['correct_answer'],"timetaken":round(request.session['elapsed_time'],2)})
 
     if len(request.session['common_features_test_samples'])!=0:
         request.session['quid'] = request.session['common_features_test_samples'][0]
         request.session['common_features_test_samples'] = request.session['common_features_test_samples'][1:]
 
-        # if len(request.session['common_features_test_samples']) == 0:
-        #     request.session['common_features_iteration']+=1
-        #     request.session['common_features_test_phase_flag'] = True
 
         if request.session['setnumber'] == 0:
             samples = Common_Features_Test_set1.objects.get(pk=request.session['quid'])

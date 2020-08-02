@@ -178,12 +178,6 @@ def classify_and_learn_display_stimuli_type1(request):
         classify_stimuli.sequence_number = 10 - len(request.session['classify_learn_samples'])
         classify_stimuli.timestamp = datetime.datetime.now()
         classify_stimuli.user_option = option
-        if option==request.session['correct_answer']:
-            request.session['score'] += 1
-            # return render(request,"Questionnaire/fixation_screen_classify.html")
-            return render(request, "Questionnaire/correct_ans_classify.html",{'time_taken':round(request.session['elapsed_time'],2)})
-        else:
-            return render(request,"Questionnaire/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer'],'time_taken':round(request.session['elapsed_time'],2)})
 
         if request.session['setnumber'] == 0:
             request.session['file_name'] = str(Classify_And_Learn_Samples_set1.objects.get(pk=request.session['quid']).sample_img.path)
@@ -212,7 +206,13 @@ def classify_and_learn_display_stimuli_type1(request):
 
         classify_stimuli.time_taken = request.session['elapsed_time']
         classify_stimuli.save()
-        return render(request,"Questionnaire/fixature_screen_test.html")
+
+        if option==request.session['correct_answer']:
+            request.session['score'] += 1
+            return render(request, "Questionnaire/correct_ans_classify.html",{'time_taken':round(request.session['elapsed_time'],2)})
+        else:
+            return render(request,"Questionnaire/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer'],'time_taken':round(request.session['elapsed_time'],2)})
+
 
     if len(request.session['classify_learn_samples'])!=0:
         id = request.session['classify_learn_samples'][0]
@@ -376,9 +376,6 @@ def test_block_display_stimuli_type1(request):
         request.session['quid'] = request.session['test_samples'][0]
         request.session['test_samples'] = request.session['test_samples'][1:]
 
-        # if len(request.session['test_samples']) == 0:
-        #     request.session['test_iteration']+=1
-        #     request.session['test_phase_flag'] = True
 
         if request.session['setnumber'] == 0:
             samples = Test_set1.objects.get(pk=request.session['quid'])

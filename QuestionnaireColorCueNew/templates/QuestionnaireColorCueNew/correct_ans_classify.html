@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name=”viewport” content=”width=device-width, initial-scale=1″>
-    <title>Warning</title>
+    <title>Feedback</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -109,15 +109,10 @@
 <br>
 
 <body>
-    <h2 align="center">Wrong Response</h2>
+    <h2 align="center">Correct Response</h2>
     <h2 align="center">Time Taken: {{ time_taken }}</h2>
-    <br/>
-    <h2 align="center">Correct Response:{{ correct_answer }}</h2>
-    <br/>
-    <h2 align="center">Recall the strategy you used.</h2>
-    <h2 align="center">Use a different strategy next time.</h2>
     <div class="center">
-        <a align="center" type="submit" class="btn btn-success" href="{% url 'classify_and_learn_display_stimuli_type3' %}">Continue</a>
+        <a align="center" type="submit" class="btn btn-success" href="{% url 'fixation_screen_classify_type3' %}">Continue</a>
     </div>
 </body>
 </html>

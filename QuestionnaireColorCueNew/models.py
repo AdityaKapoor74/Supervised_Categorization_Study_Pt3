@@ -333,3 +333,18 @@ class CommonFeatureTable(models.Model):
     rule_based = models.IntegerField(default=None,blank=False)
     time_taken = models.FloatField(default=None, blank=False)
     timestamp = models.DateTimeField(auto_now_add= True)
+
+
+class ClassifyStimuiTable(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Classify Stimluli Table"
+
+    user_id = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
+    set_number = models.IntegerField(default=None, blank=False)
+    block_number = models.IntegerField(default=None, blank=False)
+    sequence_number = models.IntegerField(default=None, blank=False)
+    file_name = models.CharField(max_length=150, blank=False, default=None)
+    user_option = models.CharField(max_length=10, default=None)
+    time_taken = models.FloatField(default=None, blank=False)
+    timestamp = models.DateTimeField(editable=True, null=False, blank=False)
