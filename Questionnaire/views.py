@@ -201,8 +201,16 @@ def classify_and_learn_display_stimuli_type1(request):
 
         if option=="A":
             classify_stimuli.user_option = "A"
+            if (request.session['file_name'].find("Target_00")!=-1 or request.session['file_name'].find("Target_01")!=-1 or request.session['file_name'].find("Target_02")!=-1 or request.session['file_name'].find("Target_03")!=-1 or request.session['file_name'].find("Target_04")!=-1):
+                classify_stimuli.correct = 1
+            else:
+                classify_stimuli.correct = 0
         else:
             classify_stimuli.user_option = "B"
+            if (request.session['file_name'].find("Contrast_00")!=-1 or request.session['file_name'].find("Contrast_01")!=-1 or request.session['file_name'].find("Contrast_02")!=-1 or request.session['file_name'].find("Contrast_03")!=-1 or request.session['file_name'].find("Contrast_04")!=-1):
+                classify_stimuli.correct = 1
+            else:
+                classify_stimuli.correct = 0
 
         classify_stimuli.time_taken = request.session['elapsed_time']
         classify_stimuli.save()
@@ -486,10 +494,10 @@ def common_features_test_block_display_stimuli_type1(request):
             request.session['file_name'] = str(Common_Features_Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
             common_feature.file_name = "colorNoCue/set4/" + request.session['file_name']
 
-        if (request.session['file_name'].find('A5')!=-1 or request.session['file_name'].find('A1')!=-1 or request.session['file_name'].find('A2')!=-1 or request.session['file_name'].find('A3')!=-1 or request.session['file_name'].find('A4')!=-1):
-            common_feature.correct_option = "A"
+        if common_feature.user_option == common_feature.correct_option:
+            common_feature.correct = 1
         else:
-            common_feature.correct_option = "B"
+            common_feature.correct = 0
 
         if common_feature.user_option==common_feature.correct_option:
             common_feature.correct = 1

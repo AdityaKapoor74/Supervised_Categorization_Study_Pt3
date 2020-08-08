@@ -200,17 +200,28 @@ def classify_and_learn_display_stimuli_type3(request):
             request.session['file_name'] = str(Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
             classify_stimuli.file_name = "colorCue/set4/" + request.session['file_name']
 
-        if option=="A":
+        if option == "A":
             classify_stimuli.user_option = "A"
+            if (request.session['file_name'].find("Target_00") != -1 or request.session['file_name'].find(
+                    "Target_01") != -1 or request.session['file_name'].find("Target_02") != -1 or request.session[
+                'file_name'].find("Target_03") != -1 or request.session['file_name'].find("Target_04") != -1):
+                classify_stimuli.correct = 1
+            else:
+                classify_stimuli.correct = 0
         else:
             classify_stimuli.user_option = "B"
+            if (request.session['file_name'].find("Contrast_00") != -1 or request.session['file_name'].find(
+                    "Contrast_01") != -1 or request.session['file_name'].find("Contrast_02") != -1 or request.session[
+                'file_name'].find("Contrast_03") != -1 or request.session['file_name'].find("Contrast_04") != -1):
+                classify_stimuli.correct = 1
+            else:
+                classify_stimuli.correct = 0
 
         classify_stimuli.time_taken = request.session['elapsed_time']
         classify_stimuli.save()
 
         if option==request.session['correct_answer']:
             request.session['score'] += 1
-            # return render(request,"QuestionnaireColorCueNew/fixation_screen_classify.html")
             return render(request, "Questionnaire/correct_ans_classify.html",
                           {'time_taken': round(request.session['elapsed_time'], 2)})
         else:
@@ -491,10 +502,6 @@ def common_features_test_block_display_stimuli_type3(request):
                 Common_Features_Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
             common_feature.file_name = "colorCue/set4/" + request.session['file_name']
 
-        if (request.session['file_name'].find('A5')!=-1 or request.session['file_name'].find('A1')!=-1 or request.session['file_name'].find('A2')!=-1 or request.session['file_name'].find('A3')!=-1 or request.session['file_name'].find('A4')!=-1):
-            common_feature.correct_option = "A"
-        else:
-            common_feature.correct_option = "B"
 
         if common_feature.user_option == common_feature.correct_option:
             common_feature.correct = 1
