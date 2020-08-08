@@ -330,7 +330,7 @@ class CommonFeatureTable(models.Model):
     file_name = models.CharField(max_length=150,blank=False,default=None)
     user_option = models.CharField(max_length=10, default=None)
     correct_option = models.CharField(max_length=10, default=None)
-    rule_based = models.IntegerField(default=None,blank=False)
+    correct = models.IntegerField(default=None,blank=False)
     time_taken = models.FloatField(default=None, blank=False)
     timestamp = models.DateTimeField(auto_now_add= True)
 
@@ -346,5 +346,6 @@ class ClassifyStimuiTable(models.Model):
     sequence_number = models.IntegerField(default=None, blank=False)
     file_name = models.CharField(max_length=150, blank=False, default=None)
     user_option = models.CharField(max_length=10, default=None)
+    correct = models.IntegerField(default=None, blank=False)
     time_taken = models.FloatField(default=None, blank=False)
     timestamp = models.DateTimeField(editable=True, null=False, blank=False)

@@ -496,18 +496,10 @@ def common_features_test_block_display_stimuli_type3(request):
         else:
             common_feature.correct_option = "B"
 
-        if request.session['setnumber'] == 0 and (request.session['file_name'].find("A1")!=-1 or request.session['file_name'].find("B1")!=-1):
-            common_feature.rule_based = 1
-        elif request.session['setnumber'] == 1 and (request.session['file_name'].find("A2")!=-1 or request.session['file_name'].find("B2")!=-1):
-            common_feature.rule_based = 1
-        elif request.session['setnumber'] == 2 and (request.session['file_name'].find("A3")!=-1 or request.session['file_name'].find("B3")!=-1):
-            common_feature.rule_based = 1
-        elif request.session['setnumber'] == 3 and (request.session['file_name'].find("A4")!=-1 or request.session['file_name'].find("B4")!=-1):
-            common_feature.rule_based = 1
-        elif request.session['setnumber'] == 4 and (request.session['file_name'].find("A5")!=-1 or request.session['file_name'].find("B5")!=-1):
-            common_feature.rule_based = 1
+        if common_feature.user_option == common_feature.correct_option:
+            common_feature.correct = 1
         else:
-            common_feature.rule_based = 0
+            common_feature.correct = 0
 
         if option=="A":
             user_response.user_option = "A"
