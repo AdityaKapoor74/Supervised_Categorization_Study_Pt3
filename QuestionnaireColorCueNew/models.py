@@ -332,7 +332,7 @@ class CommonFeatureTable(models.Model):
     correct_option = models.CharField(max_length=10, default=None)
     correct = models.IntegerField(default=None,blank=False)
     time_taken = models.FloatField(default=None, blank=False)
-    timestamp = models.DateTimeField(auto_now_add= True)
+    timestamp = models.DateTimeField(editable=True, null=False, blank=False)
 
 
 class ClassifyStimuiTable(models.Model):
