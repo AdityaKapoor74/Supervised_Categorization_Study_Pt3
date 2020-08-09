@@ -369,6 +369,7 @@ def test_block_display_stimuli_type3(request):
                 transfer_stimuli.rule_based = 1
         else:
             user_response.user_option = "B"
+            transfer_stimuli.user_option = "B"
             if (request.session['file_name'].find("Transfer_00")!=-1 or request.session['file_name'].find("Transfer_01")!=-1 or request.session['file_name'].find("Transfer_02")!=-1 or request.session['file_name'].find("Transfer_03")!=-1 or request.session['file_name'].find("Transfer_04")!=-1):
                 transfer_stimuli.rule_based = 1
             else:
@@ -445,8 +446,8 @@ def test_block_display_stimuli_type3(request):
         return render(request, 'QuestionnaireColorCueNew/test_samples.html', {'samples': samples})
 
 
-def fixature_screen_test_type1(request):
-    return render(request,"Questionnaire/fixature_screen_test.html")
+def fixature_screen_test_type3(request):
+    return render(request,"QuestionnaireColorCueNew/fixature_screen_test.html")
 
 def common_features_test_phase_type3(request):
     return render(request,"QuestionnaireColorCueNew/common_features_test_phase.html")
@@ -546,6 +547,8 @@ def common_features_test_block_display_stimuli_type3(request):
             samples = Common_Features_Test_set4.objects.get(pk=request.session['quid'])
         elif request.session['setnumber'] == 4:
             samples = Common_Features_Test_set5.objects.get(pk=request.session['quid'])
+
+        request.session['start_time'] = time.time()
         return render(request, 'QuestionnaireColorCueNew/common_features_test_samples.html',{'samples':samples})
 
     else:
