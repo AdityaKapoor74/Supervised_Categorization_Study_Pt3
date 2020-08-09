@@ -503,11 +503,6 @@ def common_features_test_block_display_stimuli_type3(request):
             common_feature.file_name = "colorCue/set4/" + request.session['file_name']
 
 
-        if common_feature.user_option == common_feature.correct_option:
-            common_feature.correct = 1
-        else:
-            common_feature.correct = 0
-
         if option=="A":
             user_response.user_option = "A"
             request.session['correct_answer'] = "A"
@@ -516,6 +511,18 @@ def common_features_test_block_display_stimuli_type3(request):
             user_response.user_option = "B"
             request.session['correct_answer'] = "B"
             common_feature.user_option = "B"
+
+        if request.session['file_name'].find("A") != -1:
+            common_feature.correct_option = "A"
+        else:
+            common_feature.correct_option = "B"
+
+        if option == common_feature.correct_option:
+            common_feature.correct = 1
+        else:
+            common_feature.correct = 0
+
+
         user_response.iteration = request.session['common_features_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
         user_response.time_taken = request.session['elapsed_time']
