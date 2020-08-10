@@ -360,26 +360,19 @@ def test_block_display_stimuli_type1(request):
         print("OPTION",option)
         print("FILE NAME",request.session['file_name'])
         if option=="A":
-            print("if")
             user_response.user_option = "A"
             transfer_stimuli.user_option = "A"
             if (request.session['file_name'].find("Transfer00")!=-1 or request.session['file_name'].find("Transfer01")!=-1 or request.session['file_name'].find("Transfer02")!=-1 or request.session['file_name'].find("Transfer03")!=-1 or request.session['file_name'].find("Transfer04")!=-1):
                 transfer_stimuli.rule_based = 0
-                print("here")
             else:
                 transfer_stimuli.rule_based = 1
-                print("there")
         else:
-            print(request.session['file_name'].find("Transfer_00"))
-            print("else")
             user_response.user_option = "B"
             transfer_stimuli.user_option = "B"
             if (request.session['file_name'].find("Transfer00")!=-1 or request.session['file_name'].find("Transfer01")!=-1 or request.session['file_name'].find("Transfer02")!=-1 or request.session['file_name'].find("Transfer03")!=-1 or request.session['file_name'].find("Transfer04")!=-1):
                 transfer_stimuli.rule_based = 1
-                print("here")
             else:
                 transfer_stimuli.rule_based = 0
-                print("there")
 
         user_response.iteration = request.session['test_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])
