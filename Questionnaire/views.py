@@ -201,13 +201,13 @@ def classify_and_learn_display_stimuli_type1(request):
 
         if option=="A":
             classify_stimuli.user_option = "A"
-            if (request.session['file_name'].find("Target_00")!=-1 or request.session['file_name'].find("Target_01")!=-1 or request.session['file_name'].find("Target_02")!=-1 or request.session['file_name'].find("Target_03")!=-1 or request.session['file_name'].find("Target_04")!=-1):
+            if request.session['file_name'].find("Target")!=-1:
                 classify_stimuli.correct = 1
             else:
                 classify_stimuli.correct = 0
         else:
             classify_stimuli.user_option = "B"
-            if (request.session['file_name'].find("Contrast_00")!=-1 or request.session['file_name'].find("Contrast_01")!=-1 or request.session['file_name'].find("Contrast_02")!=-1 or request.session['file_name'].find("Contrast_03")!=-1 or request.session['file_name'].find("Contrast_04")!=-1):
+            if request.session['file_name'].find("Contrast")!=-1:
                 classify_stimuli.correct = 1
             else:
                 classify_stimuli.correct = 0
@@ -357,20 +357,29 @@ def test_block_display_stimuli_type1(request):
             request.session['file_name'] = str(Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
             transfer_stimuli.file_name = "colorNoCue/set4/" + request.session['file_name']
 
+        print("OPTION",option)
+        print("FILE NAME",request.session['file_name'])
         if option=="A":
+            print("if")
             user_response.user_option = "A"
             transfer_stimuli.user_option = "A"
-            if (request.session['file_name'].find("Transfer_00")!=-1 or request.session['file_name'].find("Transfer_01")!=-1 or request.session['file_name'].find("Transfer_02")!=-1 or request.session['file_name'].find("Transfer_03")!=-1 or request.session['file_name'].find("Transfer_04")!=-1):
+            if (request.session['file_name'].find("Transfer00")!=-1 or request.session['file_name'].find("Transfer01")!=-1 or request.session['file_name'].find("Transfer02")!=-1 or request.session['file_name'].find("Transfer03")!=-1 or request.session['file_name'].find("Transfer04")!=-1):
                 transfer_stimuli.rule_based = 0
+                print("here")
             else:
                 transfer_stimuli.rule_based = 1
+                print("there")
         else:
+            print(request.session['file_name'].find("Transfer_00"))
+            print("else")
             user_response.user_option = "B"
             transfer_stimuli.user_option = "B"
-            if (request.session['file_name'].find("Transfer_00")!=-1 or request.session['file_name'].find("Transfer_01")!=-1 or request.session['file_name'].find("Transfer_02")!=-1 or request.session['file_name'].find("Transfer_03")!=-1 or request.session['file_name'].find("Transfer_04")!=-1):
+            if (request.session['file_name'].find("Transfer00")!=-1 or request.session['file_name'].find("Transfer01")!=-1 or request.session['file_name'].find("Transfer02")!=-1 or request.session['file_name'].find("Transfer03")!=-1 or request.session['file_name'].find("Transfer04")!=-1):
                 transfer_stimuli.rule_based = 1
+                print("here")
             else:
                 transfer_stimuli.rule_based = 0
+                print("there")
 
         user_response.iteration = request.session['test_iteration']
         user_response.user = UserDetails.objects.get(pk=request.session['user_id'])

@@ -361,16 +361,16 @@ def test_block_display_stimuli_type3(request):
         if option=="A":
             user_response.user_option = "A"
             transfer_stimuli.user_option = "A"
-            if (request.session['file_name'].find("Transfer_00") != -1 or request.session['file_name'].find(
-                    "Transfer_01") != -1 or request.session['file_name'].find("Transfer_02") != -1 or request.session[
-                'file_name'].find("Transfer_03") != -1 or request.session['file_name'].find("Transfer_04") != -1):
+            if (request.session['file_name'].find("Transfer00") != -1 or request.session['file_name'].find(
+                    "Transfer01") != -1 or request.session['file_name'].find("Transfer02") != -1 or request.session[
+                'file_name'].find("Transfer03") != -1 or request.session['file_name'].find("Transfer04") != -1):
                 transfer_stimuli.rule_based = 0
             else:
                 transfer_stimuli.rule_based = 1
         else:
             user_response.user_option = "B"
             transfer_stimuli.user_option = "B"
-            if (request.session['file_name'].find("Transfer_00")!=-1 or request.session['file_name'].find("Transfer_01")!=-1 or request.session['file_name'].find("Transfer_02")!=-1 or request.session['file_name'].find("Transfer_03")!=-1 or request.session['file_name'].find("Transfer_04")!=-1):
+            if (request.session['file_name'].find("Transfer00")!=-1 or request.session['file_name'].find("Transfer01")!=-1 or request.session['file_name'].find("Transfer02")!=-1 or request.session['file_name'].find("Transfer03")!=-1 or request.session['file_name'].find("Transfer04")!=-1):
                 transfer_stimuli.rule_based = 1
             else:
                 transfer_stimuli.rule_based = 0
