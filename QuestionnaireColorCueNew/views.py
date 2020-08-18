@@ -222,7 +222,7 @@ def classify_and_learn_display_stimuli_type3(request):
 
         if option==request.session['correct_answer']:
             request.session['score'] += 1
-            return render(request, "Questionnaire/correct_ans_classify.html",
+            return render(request, "QuestionnaireColorCueNew/correct_ans_classify.html",
                           {'time_taken': round(request.session['elapsed_time'], 2)})
         else:
             return render(request,"QuestionnaireColorCueNew/wrong_ans_warning.html",{'correct_answer':request.session['correct_answer'],'time_taken': round(request.session['elapsed_time'], 2)})
@@ -382,7 +382,7 @@ def test_block_display_stimuli_type3(request):
         user_response.save()
         transfer_stimuli.save()
 
-        return render(request,"Questionnaire/selected_category_test.html",{"option":option, "timetaken":round(request.session['elapsed_time'],2)})
+        return render(request,"QuestionnaireColorCueNew/selected_category_test.html",{"option":option, "timetaken":round(request.session['elapsed_time'],2)})
 
     if len(request.session['test_samples'])!=0:
         request.session['quid'] = request.session['test_samples'][0]
