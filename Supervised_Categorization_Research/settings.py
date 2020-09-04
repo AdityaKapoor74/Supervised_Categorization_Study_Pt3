@@ -76,9 +76,19 @@ WSGI_APPLICATION = 'Supervised_Categorization_Research.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # SQL
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    # POSTGRES
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'UserInfo',
+        'USER': 'aditya',
+        'PASSWORD': 'Iron42Patriot',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
