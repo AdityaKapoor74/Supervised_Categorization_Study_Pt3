@@ -184,19 +184,19 @@ def classify_and_learn_display_stimuli_type1(request):
             classify_stimuli.file_name = "colorNoCue/set0/"+request.session['file_name']
 
         elif request.session['setnumber'] == 1:
-            request.session['file_name'] = str(Test_set2.objects.get(pk=request.session['quid']).sample_img.path)
+            request.session['file_name'] = str(Classify_And_Learn_Samples_set2.objects.get(pk=request.session['quid']).sample_img.path)
             classify_stimuli.file_name = "colorNoCue/set1/" + request.session['file_name']
 
         elif request.session['setnumber'] == 2:
-            request.session['file_name'] = str(Test_set3.objects.get(pk=request.session['quid']).sample_img.path)
+            request.session['file_name'] = str(Classify_And_Learn_Samples_set3.objects.get(pk=request.session['quid']).sample_img.path)
             classify_stimuli.file_name = "colorNoCue/set2/" + request.session['file_name']
 
         elif request.session['setnumber'] == 3:
-            request.session['file_name'] = str(Test_set4.objects.get(pk=request.session['quid']).sample_img.path)
+            request.session['file_name'] = str(Classify_And_Learn_Samples_set4.objects.get(pk=request.session['quid']).sample_img.path)
             classify_stimuli.file_name = "colorNoCue/set3/" + request.session['file_name']
 
         elif request.session['setnumber'] == 4:
-            request.session['file_name'] = str(Test_set5.objects.get(pk=request.session['quid']).sample_img.path)
+            request.session['file_name'] = str(Classify_And_Learn_Samples_set5.objects.get(pk=request.session['quid']).sample_img.path)
             classify_stimuli.file_name = "colorNoCue/set4/" + request.session['file_name']
 
         if option=="A":

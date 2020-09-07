@@ -25,7 +25,7 @@ SECRET_KEY = 'gz$2j*msxfl4eb2qm-z^_4%4z(up7_&97i1qjjig8=aw8pef+u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','159.89.160.154']
 
 
 # Application definition
@@ -77,19 +77,19 @@ WSGI_APPLICATION = 'Supervised_Categorization_Research.wsgi.application'
 
 DATABASES = {
     # SQL
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-    # POSTGRES
     # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'userinfo',
-    #     'USER': 'aditya',
-    #     'PASSWORD': 'Iron42Patriot',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
+    # POSTGRES
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'userinfo',
+        'USER': 'aditya',
+        'PASSWORD': 'Iron42Patriot',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 
