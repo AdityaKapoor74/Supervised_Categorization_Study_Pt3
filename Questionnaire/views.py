@@ -297,7 +297,8 @@ def classify_performance_type1(request):
         request.session['iteration']+=1
         request.session['flag_training'] = False
         request.session['score'] = 0
-        #check for iterations if greater than 10 : what to do?
+        if request.session['iteration'] > 10:
+            return render(request,"Questionnaire/early_exit.html")
         return render(request,"Questionnaire/observe_and_learn.html",{"iteration":request.session['iteration']})
     else:
         #Testing phase
