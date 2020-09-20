@@ -599,6 +599,7 @@ def save_responses_description(request):
     if request.method == "POST":
         try:
             desc = request.POST.get('description', None)
+            desc = desc.replace(',','$')
             if len(desc) != 0:
                 user_response = UserResponsesForDescription()
                 user_response.description = desc
