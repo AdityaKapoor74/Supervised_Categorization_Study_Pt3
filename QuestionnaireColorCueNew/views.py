@@ -200,19 +200,15 @@ def classify_and_learn_display_stimuli_type3(request):
             request.session['file_name'] = str(Classify_And_Learn_Samples_set5.objects.get(pk=request.session['quid']).sample_img.path)
             classify_stimuli.file_name = "colorCue/set4/" + request.session['file_name']
 
-        if option == "A":
+        if option=="A":
             classify_stimuli.user_option = "A"
-            if (request.session['file_name'].find("Target00") != -1 or request.session['file_name'].find(
-                    "Target01") != -1 or request.session['file_name'].find("Target02") != -1 or request.session[
-                'file_name'].find("Target03") != -1 or request.session['file_name'].find("Target04") != -1):
+            if request.session['file_name'].find("Target")!=-1:
                 classify_stimuli.correct = 1
             else:
                 classify_stimuli.correct = 0
         else:
             classify_stimuli.user_option = "B"
-            if (request.session['file_name'].find("Contrast00") != -1 or request.session['file_name'].find(
-                    "Contrast01") != -1 or request.session['file_name'].find("Contrast02") != -1 or request.session[
-                'file_name'].find("Contrast03") != -1 or request.session['file_name'].find("Contrast04") != -1):
+            if request.session['file_name'].find("Contrast")!=-1:
                 classify_stimuli.correct = 1
             else:
                 classify_stimuli.correct = 0
@@ -231,6 +227,7 @@ def classify_and_learn_display_stimuli_type3(request):
 
     if len(request.session['classify_learn_samples'])!=0:
         id = request.session['classify_learn_samples'][0]
+        request.session['quid'] = id
         request.session['classify_learn_samples'] = request.session['classify_learn_samples'][1:]
         if len(request.session['classify_learn_samples']) == 0:
             request.session['flag_test'] = True
