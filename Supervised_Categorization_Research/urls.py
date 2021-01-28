@@ -22,8 +22,8 @@ from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('quiz/type1/', include('Questionnaire.urls')),
-    path('quiz/type2/', include('QuestionnaireColorCueNew.urls')),
+    path('quiz/type1/', include('Questionnaire_type1.urls')),
+    path('quiz/type2/', include('Questionnaire_type2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
