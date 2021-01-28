@@ -364,7 +364,7 @@ def test_block_display_stimuli_type3(request):
                 'file_name'].find("Transfer03") != -1 or request.session['file_name'].find("Transfer04") != -1):
                 transfer_stimuli.rule_based = 0
             else:
-                transfer_stimuli.rule_based = 1
+                transfer_stimuli.rule_based = 1hould
         else:
             user_response.user_option = "B"
             transfer_stimuli.user_option = "B"
