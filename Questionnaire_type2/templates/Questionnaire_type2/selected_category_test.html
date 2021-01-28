@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name=”viewport” content=”width=device-width, initial-scale=1″>
-    <title>Observe and Learn</title>
+    <title>Response Feedback</title>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -109,14 +109,13 @@
 <br>
 
 <body>
-    <h2 align="center">Observe and Learn</h2>
+    <h2 align="center">Your Response</h2>
     <br/>
-    <h2 align="center">{{ iteration }} out of 10</h2>
+    <h2 align="center">{{ option }}</h2>
     <br/>
+    <h2 align="center">Time Taken: {{ timetaken }}</h2>
     <div class="center">
-        <br>
-        <br>
-        <a align="center" type="submit" class="btn btn-dark" href="{% url 'observe_and_learn_instructions_type3' %}">Next</a>
+        <a align="center" type="submit" class="btn btn-dark" href="{% url 'fixature_screen_test_type3' %}">Continue</a>
     </div>
 </body>
 </html>
